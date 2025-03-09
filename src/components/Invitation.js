@@ -94,7 +94,34 @@ const Invitation = () => {
       <h2 className="name">Dayanna Suarez</h2>
       <p className="invite-text">Te invitamos a celebrar mi primer cumple...</p>
       <div className="date-container">
-        {/* Restauramos tu diseño personalizado */}
+        <div
+          style={{
+            fontFamily: 'Arial, sans-serif',
+            textAlign: 'center',
+            backgroundColor: '#f9f9f9',
+            padding: '20px',
+            borderRadius: '10px',
+            border: '2px solid #ffcccc',
+            margin: '10px 0',
+          }}
+        >
+          <h1 style={{ color: '#e74c3c' }}>¡Estás invitado a una celebración!</h1>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              gap: '20px',
+              marginTop: '10px',
+              color: '#555',
+            }}
+          >
+            <span style={{ fontWeight: 'bold', color: '#e74c3c' }}>Sábado</span>
+            <span style={{ fontWeight: 'bold', color: '#e74c3c' }}>14:00</span>
+            <span style={{ fontWeight: 'bold', color: '#e74c3c' }}>05</span>
+            <span style={{ fontWeight: 'bold', color: '#e74c3c' }}>Abril 2025</span>
+          </div>
+          <p style={{ fontSize: '18px', color: '#777', marginTop: '10px' }}>¡No faltes!</p>
+        </div>
       </div>
       {timeLeft && (
         <div className="counter">
@@ -122,7 +149,7 @@ const Invitation = () => {
           src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d127583.51969298511!2d-79.9244288!3d-2.1594111999999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2sec!4v1741543233116!5m2!1ses!2sec&marker=2.1594111999999996,-79.9244288"
           width="400"
           height="400"
-          style={{ border: 0 }}
+          style={{ border: '0', borderRadius: '10px' }} // Añadimos bordes redondeados
           allowFullScreen=""
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
