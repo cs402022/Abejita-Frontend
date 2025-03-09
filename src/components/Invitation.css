@@ -1,0 +1,131 @@
+.invitation-container {
+    text-align: center;
+    padding: 20px;
+    background-color: #fff3e6;
+    min-height: 100vh;
+    font-family: 'Comic Sans MS', cursive;
+  }
+  
+  .title {
+    font-size: 2.5em;
+    color: #ffcc00;
+    text-shadow: 2px 2px #ff6600;
+    margin-bottom: 20px;
+  }
+  
+  .abejita-animation {
+    width: 100px;
+    height: auto;
+    margin: 10px;
+    animation: fly 4s infinite linear;
+  }
+  
+  @keyframes fly {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(50px, 20px); }
+    50% { transform: translate(100px, 0); }
+    75% { transform: translate(50px, -20px); }
+    100% { transform: translate(0, 0); }
+  }
+  
+  .name {
+    font-size: 2em;
+    color: #1e90ff;
+    font-family: 'Dancing Script', cursive;
+    margin: 10px 0;
+  }
+  
+  .invite-text {
+    font-size: 1.2em;
+    color: #ff6600;
+    margin: 10px 0;
+  }
+  
+  .date-container {
+    font-size: 1.5em;
+    color: #ff6600;
+    margin: 20px 0;
+  }
+  
+  .date-container span {
+    margin: 0 5px;
+  }
+  
+  .counter {
+    margin: 20px 0;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .counter p {
+    font-size: 1.2em;
+    color: #ff6600;
+  }
+  
+  .time {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .time span {
+    font-size: 1.1em;
+    color: #333;
+  }
+  
+  .decor-image {
+    width: 50px;
+    height: auto;
+    margin-top: 10px;
+  }
+  
+  .location {
+    margin: 20px 0;
+  }
+  
+  .location p {
+    font-size: 1.2em;
+    color: #ff6600;
+    margin-bottom: 10px;
+  }
+  
+  .confirmation {
+    margin-top: 20px;
+  }
+  
+  .status {
+    font-size: 1.2em;
+    color: #ff6600;
+    margin: 10px 0;
+  }
+  
+  .buttons {
+    margin: 20px 0;
+  }
+  
+  .yes-button, .no-button {
+    padding: 10px 20px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 10px;
+  }
+  
+  .yes-button {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .no-button {
+    background-color: #f44336;
+    color: white;
+  }
+  
+  .message {
+    color: #ff6600;
+    font-size: 1.1em;
+    margin-top: 10px;
+  }
