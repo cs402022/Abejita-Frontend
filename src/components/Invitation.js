@@ -94,34 +94,80 @@ const Invitation = () => {
       <h2 className="name">Dayanna Suarez</h2>
       <p className="invite-text">Te invitamos a celebrar mi primer cumple...</p>
       <div className="date-container">
-        <div
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8 }}
           style={{
             fontFamily: 'Arial, sans-serif',
             textAlign: 'center',
-            backgroundColor: '#f9f9f9',
-            padding: '20px',
-            borderRadius: '10px',
-            border: '2px solid #ffcccc',
-            margin: '10px 0',
+            background: 'linear-gradient(135deg, #fff3e6, #ffe6cc)',
+            padding: '25px',
+            borderRadius: '15px',
+            border: '3px solid #ff9999',
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+            margin: '20px 0',
           }}
         >
-          <h1 style={{ color: '#e74c3c' }}>¡Estás invitado a una celebración!</h1>
+          <motion.h1
+            style={{ color: '#e74c3c', fontSize: '28px', marginBottom: '15px' }}
+            initial={{ y: -20 }}
+            animate={{ y: 0 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+          >
+            ¡Estás invitado a una celebración especial!
+          </motion.h1>
           <div
             style={{
               display: 'flex',
               justifyContent: 'center',
-              gap: '20px',
-              marginTop: '10px',
-              color: '#555',
+              gap: '25px',
+              margin: '15px 0',
+              color: '#333',
             }}
           >
-            <span style={{ fontWeight: 'bold', color: '#e74c3c' }}>Sábado</span>
-            <span style={{ fontWeight: 'bold', color: '#e74c3c' }}>14:00</span>
-            <span style={{ fontWeight: 'bold', color: '#e74c3c' }}>05</span>
-            <span style={{ fontWeight: 'bold', color: '#e74c3c' }}>Abril 2025</span>
+            <motion.span
+              style={{ fontWeight: 'bold', fontSize: '22px', color: '#e74c3c' }}
+              initial={{ x: -50 }}
+              animate={{ x: 0 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+            >
+              Sábado
+            </motion.span>
+            <motion.span
+              style={{ fontWeight: 'bold', fontSize: '22px', color: '#e74c3c' }}
+              initial={{ x: -50 }}
+              animate={{ x: 0 }}
+              transition={{ delay: 0.4, duration: 0.5 }}
+            >
+              14:00
+            </motion.span>
+            <motion.span
+              style={{ fontWeight: 'bold', fontSize: '22px', color: '#e74c3c' }}
+              initial={{ x: -50 }}
+              animate={{ x: 0 }}
+              transition={{ delay: 0.5, duration: 0.5 }}
+            >
+              05
+            </motion.span>
+            <motion.span
+              style={{ fontWeight: 'bold', fontSize: '22px', color: '#e74c3c' }}
+              initial={{ x: -50 }}
+              animate={{ x: 0 }}
+              transition={{ delay: 0.6, duration: 0.5 }}
+            >
+              Abril 2025
+            </motion.span>
           </div>
-          <p style={{ fontSize: '18px', color: '#777', marginTop: '10px' }}>¡No faltes!</p>
-        </div>
+          <motion.p
+            style={{ fontSize: '20px', color: '#777', marginTop: '15px' }}
+            initial={{ y: 20 }}
+            animate={{ y: 0 }}
+            transition={{ delay: 0.7, duration: 0.5 }}
+          >
+            ¡No faltes, te esperamos con cariño!
+          </motion.p>
+        </motion.div>
       </div>
       {timeLeft && (
         <div className="counter">
@@ -149,7 +195,7 @@ const Invitation = () => {
           src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d127583.51969298511!2d-79.9244288!3d-2.1594111999999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2sec!4v1741543233116!5m2!1ses!2sec&marker=2.1594111999999996,-79.9244288"
           width="400"
           height="400"
-          style={{ border: '0', borderRadius: '10px' }} // Añadimos bordes redondeados
+          style={{ border: '0', borderRadius: '10px' }}
           allowFullScreen=""
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
