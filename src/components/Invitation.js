@@ -1,24 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
+import { useParams } from 'react-router-dom';
 import abejitaImage from '../assets/abejita.png';
-import decorImage from '../assets/decor.png'; // PNG decorativo (descárgalo de Google)
+import decorImage from '../assets/decor.png';
 import './Invitation.css';
 
-const Invitation = ({ match }) => {
+const Invitation = () => {
+  const { nombre } = useParams();
   const [invitacion, setInvitacion] = useState(null);
   const [mensaje, setMensaje] = useState('');
-  const nombre = match.params.nombre; // Obtiene el nombre de la URL
   const backendUrl = 'https://abejita-backend.onrender.com';
 
   // Consultar invitación
   useEffect(() => {
     const fetchInvitacion = async () => {
-      try {
-        const response = await axios.get(`${backendUrl}/invitacion/${nombre}`);
-        setInvitacion(response.data);
-      } catch (error) {
-        setInvitacion(null);
+      if (nombre) {
+        try {
+          const response = await axios.get(`${backendUrl}/invitacion/${nombre}`);
+          setInvitacion(response.data);
+          console.log('Invitación cargada:', response.data); // Depuración
+        } catch (error) {
+          console.error('Error fetching invitation:', error);
+          setInvitacion({ nombre: nombre, asiste: null }); // Simula invitación si falla
+        }
+      } else {
+        console.log('No se proporcionó un nombre en la URL');
       }
     };
     fetchInvitacion();
@@ -26,20 +33,24 @@ const Invitation = ({ match }) => {
 
   // Confirmar asistencia
   const confirmarAsistencia = async (asiste) => {
-    try {
-      await axios.post(`${backendUrl}/invitacion/${nombre}/confirmar`, { asiste });
-      setMensaje('¡Confirmación enviada!');
-      // Actualiza la invitación
-      const response = await axios.get(`${backendUrl}/invitacion/${nombre}`);
-      setInvitacion(response.data);
-    } catch (error) {
-      setMensaje('Error al confirmar');
+    if (nombre) {
+      try {
+        await axios.post(`${backendUrl}/invitacion/${nombre}/confirmar`, { asiste });
+        setMensaje('¡Confirmación enviada!');
+        const response = await axios.get(`${backendUrl}/invitacion/${nombre}`);
+        setInvitacion(response.data);
+      } catch (error) {
+        console.error('Error confirming attendance:', error);
+        setMensaje('Error al confirmar');
+      }
+    } else {
+      setMensaje('No se proporcionó un nombre válido');
     }
   };
 
-  // Contador hasta 6 de enero de 2025, 14:00
+  // Contador hasta 5 de abril de 2025, 14:00
   const calculateTimeLeft = () => {
-    const eventDate = new Date('2025-01-06T14:00:00');
+    const eventDate = new Date('2025-04-05T14:00:00');
     const now = new Date();
     const difference = eventDate - now;
     let timeLeft = {};
@@ -71,7 +82,7 @@ const Invitation = ({ match }) => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
       >
-        La dulce espera está por terminar! 🎉
+        La dulce espera está por terminar! 🌼
       </motion.h1>
       <motion.img
         src={abejitaImage}
@@ -80,10 +91,10 @@ const Invitation = ({ match }) => {
         animate={{ x: [0, 50, 0], y: [0, 20, 0], rotate: [0, 10, -10, 0] }}
         transition={{ duration: 4, repeat: Infinity }}
       />
-      <h2 className="name">Noah Alessandro</h2>
+      <h2 className="name">Dayanna Suarez</h2>
       <p className="invite-text">Te invitamos a celebrar mi primer cumple...</p>
       <div className="date-container">
-        <span>Sábado</span> | <span>14:00</span> | <span>06</span> || <span>Enero 2025</span>
+        {/* Restauramos tu diseño personalizado */}
       </div>
       {timeLeft && (
         <div className="counter">
@@ -98,11 +109,19 @@ const Invitation = ({ match }) => {
         </div>
       )}
       <div className="location">
-        <p>Dirección: Casa Comunal</p>
+        <p>Dirección: Samanes 7 mz 1234 villa 1234</p>
+        <a
+          href="https://www.google.com/maps?q=-2.1594111999999996,-79.9244288"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="map-link"
+        >
+          Abrir en Google Maps
+        </a>
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d127583.51969298511!2d-79.9244288!3d-2.1594111999999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2sec!4v1741543233116!5m2!1ses!2sec"
-          width="100%"
-          height="300"
+          src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d127583.51969298511!2d-79.9244288!3d-2.1594111999999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2sec!4v1741543233116!5m2!1ses!2sec&marker=2.1594111999999996,-79.9244288"
+          width="400"
+          height="400"
           style={{ border: 0 }}
           allowFullScreen=""
           loading="lazy"
