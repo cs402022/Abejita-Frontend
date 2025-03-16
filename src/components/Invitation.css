@@ -130,7 +130,7 @@
 }
 
 .time-block {
-  background-color: #eed2e9;
+  background-color: #E75480;
   padding: 10px;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -140,17 +140,18 @@
   flex-direction: column; /* Stack number and label vertically */
   justify-content: center;
   align-items: center;
+  font-family: 'Cardo', serif;  
 }
 
 .time-number {
   font-size: 1.5em;
-  color: #333;
+  color: #ffffff;
   display: block;
 }
 
 .time-label {
   font-size: 0.9em;
-  color: #777;
+  color: #ffffff;
   text-align: center;
   margin-top: 5px; /* Añadimos margen para espaciar el texto */
   width: auto; /* Corregimos el ancho absurdo de 5px */
@@ -158,7 +159,7 @@
 
 .time-block span {
   font-size: 1.5em;
-  color: #333;
+  color: #ffffff;
   display: block;
 }
 
@@ -281,19 +282,19 @@
   width: 100%;
   max-width: 600px; /* Ajusta según el ancho deseado */
 }
-.flordeco-image {
+.barrildeco-image {
   width: 80px; /* Ajusta el tamaño de la imagen de la flor */
   height: auto;
   position: absolute;
 }
 
-.flordeco-image.left {
+.barrildeco-image.left {
   left: 0;
   transform: translate(-100%, -50%); /* Desplazamiento inicial */
   top: 40%; /* Posición base */
 }
 
-.flordeco-image.right {
+.barrildeco-image.right {
   right: 0;
   transform: translate(100%, -55%); /* Ajuste para subir la flor derecha */
   top: 34%; /* Mantiene la misma posición base */
@@ -357,9 +358,8 @@
 }
 
 .date-block .date-number {
-  font-size: 4em;
+  font-size: 5em;
   color: #d4b819;
-  font-family: 'Great Vibes', cursive;
   display: block;
   font-weight: bold;
 }
@@ -506,17 +506,17 @@
   .decor-image {
     width: 250px;
   }
-  .flordeco-image {
+  .barrildeco-image {
     width: 50px; /* Ajuste para pantallas medianas */
   }
 
-  .flordeco-image.left {
+  .barrildeco-image.left {
     left: 20px;
     transform: translate(0, -50%);
     top: 40%;
   }
 
-  .flordeco-image.right {
+  .barrildeco-image.right {
     right: 20px;
     transform: translate(0, -55%); /* Ajuste para subir la flor derecha */
     top: 40%;
@@ -579,11 +579,11 @@
 
   .date-block .date-day,
   .date-block .date-month {
-    font-size: 1.2em;
+    font-size: 1.4em;
   }
 
   .date-block .date-number {
-    font-size: 1.5em;
+    font-size: 2.2em;
   }
 
   .date-block .date-separator {
@@ -592,7 +592,7 @@
 
   .date-block .date-time,
   .date-block .date-year {
-    font-size: 0.8em;
+    font-size: 1.2em;
   }
 
   .counter-content p {
@@ -624,17 +624,17 @@
   .decor-image {
     width: 160px;
   }
-  .flordeco-image {
-    width: 40px; /* Ajuste para pantallas pequeñas */
+  .barrildeco-image {
+    width: 50px; /* Ajuste para pantallas pequeñas */
   }
 
-  .flordeco-image.left {
+  .barrildeco-image.left {
     left: 20px;
     transform: translate(0, -50%);
     top: 20%;
   }
 
-  .flordeco-image.right {
+  .barrildeco-image.right {
     right: 20px; /*centrar*/
     transform: translate(0, -55%); /* Ajuste para subir la flor derecha */
     top: 15%; /*arriba*/

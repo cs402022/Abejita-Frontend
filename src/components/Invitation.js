@@ -13,7 +13,7 @@ import locationIcon from '../assets/location.png';
 import usuario from '../assets/usuario.png';
 import './Invitation.css';
 import flordecoImage from '../assets/flordeco.png';
-
+import barrildecoImage from '../assets/barril.png';
 const Invitation = () => {
   const { nombre } = useParams();
   const [invitacion, setInvitacion] = useState(null);
@@ -163,8 +163,8 @@ const Invitation = () => {
       </div>
       <p className="invite-text">
         {nombre
-          ? `${nombre.replace('_', ' ').toUpperCase()}, TENEMOS EL HONOR DE INVITARTE A CELEBRAR EL PRIMER ANITO DE NUESTRA AMADA 🎉`
-          : 'TENEMOS EL HONOR DE INVITARTE A CELEBRAR EL PRIMER ANITO DE NUESTRA AMADA 🎉'}
+          ? `${nombre.replace('_', ' ').toUpperCase()}, TENEMOS EL HONOR DE INVITARTE AL PRIMER AÑITO DE NUESTRA PRINCESA 🎉`
+          : 'TENEMOS EL HONOR DE INVITARTE AL PRIMER AÑITO DE NUESTRA PRINCESA  🎉'}
       </p>
 
       {/* Imagen de la cumpleañera (hijadisfrazada) */}
@@ -185,9 +185,9 @@ const Invitation = () => {
         <h3 className="name">Charlotte Suarez Armijos</h3>
         <div className="decorated-date-wrapper">
           <motion.img
-            src={flordecoImage}
-            alt="Flor decorativa izquierda"
-            className="flordeco-image left"
+            src={barrildecoImage}
+            alt="Barril decorativa izquierda"
+            className="barrildeco-image left"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
@@ -214,9 +214,9 @@ const Invitation = () => {
             </div>
           </motion.div>
           <motion.img
-            src={flordecoImage}
-            alt="Flor decorativa derecha"
-            className="flordeco-image right"
+            src={barrildecoImage}
+            alt="barril decorativa derecha"
+            className="barrildeco-image right"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
