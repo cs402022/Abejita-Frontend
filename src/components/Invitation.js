@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import { useParams } from 'react-router-dom';
@@ -19,6 +19,28 @@ const Invitation = () => {
   const [invitacion, setInvitacion] = useState(null);
   const [mensaje, setMensaje] = useState('');
   const backendUrl = 'https://abejita-backend.onrender.com';
+
+  // Referencia para controlar el audio
+  const audioRef = useRef(null);
+
+  // Controlar la reproducción del audio
+  useEffect(() => {
+    const audio = audioRef.current;
+
+    // Reproducir el audio manualmente
+    audio.play().catch((error) => {
+      console.error('Error al reproducir el audio:', error);
+    });
+
+    // Detener después de 60 segundos (1 minuto)
+    const timeout = setTimeout(() => {
+      audio.pause();
+      audio.currentTime = 0; // Reinicia el audio al principio
+    }, 60 * 1000); // 60 segundos
+
+    // Limpiar el timeout al desmontar el componente
+    return () => clearTimeout(timeout);
+  }, []);
 
   // Consultar invitación
   useEffect(() => {
@@ -104,7 +126,7 @@ const Invitation = () => {
       </div>
 
       {/* Audio que se reproduce al abrir la página */}
-      <audio autoPlay loop>
+      <audio ref={audioRef}>
         <source src={song} type="audio/mp3" />
         Tu navegador no soporta el elemento de audio.
       </audio>
