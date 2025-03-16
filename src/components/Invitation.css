@@ -50,12 +50,12 @@
   font-family: 'Great Vibes', cursive;
 }
 
-.subtitle {
-  font-size: 2.8em;
-  color: #756e44;
-  font-family: 'Great Vibes', cursive;
-  margin: 10px 0;
-}
+.subtitle {  
+  font-size: 2.8em;  
+  color: #756e44;  
+  font-family: 'Rochester', cursive; /* Cambia 'Great Vibes' por 'Rochester' */  
+  margin: 10px 0;  
+}  
 
 /* Contenedor para abeja y contenido (contador o dirección) */
 .counter-container,
@@ -78,7 +78,14 @@
   flex-direction: row; /* Abeja a la izquierda, dirección a la derecha */
 }
 
-.abejita-wrapper2,
+.abejita-wrapper2 {
+  width: 200px; /* Tamaño fijo para consistencia */
+  max-width: 200px;
+  margin: 0;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
 .abejita-wrapper {
   width: 150px; /* Tamaño fijo para consistencia */
   max-width: 150px;
@@ -94,6 +101,12 @@
   display: block;
   max-height: 150px;
 }
+.abejita-animation2 {
+  width: 100%;
+  height: auto;
+  display: block;
+  max-height: 200px;
+}
 
 /* Contenido del contador */
 .counter-content {
@@ -105,7 +118,7 @@
 .counter-content p {
   font-size: 2.5em;
   color: #8f9c70;
-  font-family: 'Great Vibes', cursive;
+  font-family: 'Rochester', cursive; /* Cambia 'Great Vibes' por 'Rochester' */  
   margin-bottom: 10px;
 }
 
@@ -260,6 +273,32 @@
   margin: 15px 0;
 }
 
+.decorated-date-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 600px; /* Ajusta según el ancho deseado */
+}
+.flordeco-image {
+  width: 80px; /* Ajusta el tamaño de la imagen de la flor */
+  height: auto;
+  position: absolute;
+}
+
+.flordeco-image.left {
+  left: 0;
+  transform: translate(-100%, -50%); /* Desplazamiento inicial */
+  top: 40%; /* Posición base */
+}
+
+.flordeco-image.right {
+  right: 0;
+  transform: translate(100%, -55%); /* Ajuste para subir la flor derecha */
+  top: 34%; /* Mantiene la misma posición base */
+}
+
 .decor-wrapper {
   width: 100%;
   background-color: #eed2e9;
@@ -287,7 +326,7 @@
 .name {
   font-size: 3.5em;
   color: #404f55;
-  font-family: 'Great Vibes', cursive;
+  font-family: 'Rochester', cursive; /* Cambia 'Great Vibes' por 'Rochester' */  
   margin: 0;
 }
 
@@ -298,7 +337,6 @@
 .date-block {
   display: grid;
   grid-template-columns: auto auto 1fr auto auto;
-  grid-template-rows: auto auto;
   align-items: center;
   justify-content: center;
   gap: 10px;
@@ -364,12 +402,12 @@
   }
 
   .counter-container {
-    flex-direction: row; /* Mantener horizontal en móvil */
+    flex-direction: row;
     justify-content: space-between;
   }
 
   .location-container {
-    flex-direction: row; /* Mantener horizontal en móvil */
+    flex-direction: row;
     justify-content: space-between;
   }
 
@@ -444,7 +482,7 @@
   }
 
   .time-block {
-    width:60px; /* Corregimos de 505px a 60px, un valor razonable */
+    width: 60px;
     padding: 8px;
   }
 
@@ -454,7 +492,7 @@
 
   .time-label {
     font-size: 0.8em;
-    width: 45px; /* Ajustamos el ancho del label */
+    width: auto;
   }
 
   .time-block span {
@@ -468,130 +506,20 @@
   .decor-image {
     width: 250px;
   }
-
-  .status {
-    font-size: 0.9em;
+  .flordeco-image {
+    width: 50px; /* Ajuste para pantallas medianas */
   }
 
-  .message {
-    font-size: 0.9em;
+  .flordeco-image.left {
+    left: 20px;
+    transform: translate(0, -50%);
+    top: 40%;
   }
 
-  .decor-top-image,
-  .decor-bottom-image {
-    height: auto;
-  }
-}
-/* Media Queries */
-@media (max-width: 768px) {
-  .invitation-container {
-    padding: 10px;
-  }
-
-  .counter-container {
-    flex-direction: row; /* Mantener horizontal en móvil */
-    justify-content: space-between;
-  }
-
-  .location-container {
-    flex-direction: row; /* Mantener horizontal en móvil */
-    justify-content: space-between;
-  }
-
-  .abejita-wrapper {
-    width: 100px;
-    max-width: 100px;
-  }
-
-  .location-info,
-  .counter-content {
-    width: 200px;
-    max-width: 200px;
-    text-align: center;
-  }
-
-  .location-title {
-    font-size: 1.2em;
-  }
-
-  .location-address {
-    font-size: 1em;
-  }
-
-  .map-link,
-  .yes-button {
-    font-size: 0.9em;
-    width: 100%;
-  }
-
-  .hija-image {
-    width: 300px;
-  }
-
-  .title {
-    font-size: 1.8em;
-    padding: 8px 15px;
-  }
-
-  .subtitle {
-    font-size: 2.4em;
-  }
-
-  .invite-text {
-    font-size: 1.5em;
-    padding: 8px 15px;
-  }
-
-  .name {
-    font-size: 2em;
-  }
-
-  .date-block .date-day,
-  .date-block .date-month {
-    font-size: 1.9em;
-  }
-
-  .date-block .date-number {
-    font-size: 3.5em;
-  }
-
-  .date-block .date-separator {
-    font-size: 2.6em;
-  }
-
-  .date-block .date-time,
-  .date-block .date-year {
-    font-size: 2.3em;
-  }
-
-  .counter-content p {
-    font-size: 1.5em;
-  }
-
-  .time-block {
-    width: 60px; /* Valor razonable para pantallas medianas */
-    padding: 8px;
-  }
-
-  .time-number {
-    font-size: 1.2em;
-  }
-
-  .time-label {
-    font-size: 0.8em;
-    width: auto; /* Ajustamos para que ocupe el ancho necesario */
-  }
-
-  .time-block span {
-    font-size: 1.2em;
-  }
-
-  .time-block p {
-    font-size: 0.8em;
-  }
-
-  .decor-image {
-    width: 250px;
+  .flordeco-image.right {
+    right: 20px;
+    transform: translate(0, -55%); /* Ajuste para subir la flor derecha */
+    top: 40%;
   }
 
   .status {
@@ -620,13 +548,13 @@
   }
 
   .counter-content {
-    width: 300px; /* Aumentamos el ancho para permitir que los time-block crezcan */
-    max-width: 300px; /* Aumentamos para dar más espacio */
+    width: 300px;
+    max-width: 300px;
     text-align: center;
   }
 
   .time-blocks {
-    gap: 5px; /* Reducimos el gap para que haya más espacio disponible */
+    gap: 5px;
   }
 
   .hija-image {
@@ -672,7 +600,7 @@
   }
 
   .time-block {
-    width: 60px; /* Ajustamos a un valor razonable que pueda crecer */
+    width: 60px;
     padding: 6px;
   }
 
@@ -682,7 +610,7 @@
 
   .time-label {
     font-size: 0.7em;
-    width: auto; /* Ajustamos para que ocupe el ancho necesario */
+    width: auto;
   }
 
   .time-block span {
@@ -696,7 +624,23 @@
   .decor-image {
     width: 160px;
   }
+  .flordeco-image {
+    width: 40px; /* Ajuste para pantallas pequeñas */
+  }
 
+  .flordeco-image.left {
+    left: 20px;
+    transform: translate(0, -50%);
+    top: 20%;
+  }
+
+  .flordeco-image.right {
+    right: 20px; /*centrar*/
+    transform: translate(0, -55%); /* Ajuste para subir la flor derecha */
+    top: 15%; /*arriba*/
+  }
+
+ 
   .status {
     font-size: 0.8em;
   }

@@ -26,7 +26,6 @@ const Invitation = () => {
       if (nombre) {
         try {
           const response = await axios.get(`${backendUrl}/invitacion/${nombre}`);
-          // Si no hay confirmación previa en el backend, forzamos asiste a null
           const data = response.data.asiste === undefined || response.data.asiste === null 
             ? { nombre: nombre, asiste: null }
             : response.data;
@@ -34,7 +33,7 @@ const Invitation = () => {
           console.log('Invitación cargada:', data);
         } catch (error) {
           console.error('Error fetching invitation:', error);
-          setInvitacion({ nombre: nombre, asiste: null }); // Aseguramos que asiste sea null en caso de error
+          setInvitacion({ nombre: nombre, asiste: null });
         }
       } else {
         console.log('No se proporcionó un nombre en la URL');
@@ -50,7 +49,6 @@ const Invitation = () => {
         await axios.post(`${backendUrl}/invitacion/${nombre}/confirmar`, { asiste });
         setMensaje('¡Confirmación enviada!');
         const response = await axios.get(`${backendUrl}/invitacion/${nombre}`);
-        // Forzamos que si no hay confirmación, asiste sea null
         const updatedData = response.data.asiste === undefined || response.data.asiste === null 
           ? { nombre: nombre, asiste: null }
           : response.data;
@@ -141,7 +139,7 @@ const Invitation = () => {
           loading="lazy"
         />
       </div>
-       <p className="invite-text">
+      <p className="invite-text">
         {nombre
           ? `${nombre.replace('_', ' ').toUpperCase()}, TENEMOS EL HONOR DE INVITARTE A CELEBRAR EL PRIMER ANITO DE NUESTRA AMADA 🎉`
           : 'TENEMOS EL HONOR DE INVITARTE A CELEBRAR EL PRIMER ANITO DE NUESTRA AMADA 🎉'}
@@ -160,29 +158,49 @@ const Invitation = () => {
         />
       </div>
 
-      {/* Contenedor para el nombre y la fecha */}
+      {/* Contenedor para el nombre y la fecha con decoraciones */}
       <div className="name-date-wrapper">
         <h3 className="name">Charlotte Suarez Armijos</h3>
-        <motion.div
-          className="date-container"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8 }}
-        >
-          <div className="date-block">
-            <div className="date-column">
-              <span className="date-day">Sábado</span>
-              <span className="date-time">15:00</span>
+        <div className="decorated-date-wrapper">
+          <motion.img
+            src={flordecoImage}
+            alt="Flor decorativa izquierda"
+            className="flordeco-image left"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            loading="lazy"
+          />
+          <motion.div
+            className="date-container"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8 }}
+          >
+            <div className="date-block">
+              <div className="date-column">
+                <span className="date-day">Sábado</span>
+                <span className="date-time">15:00</span>
+              </div>
+              <span className="date-separator"> | </span>
+              <span className="date-number">05</span>
+              <span className="date-separator"> | </span>
+              <div className="date-column">
+                <span className="date-month">Abril</span>
+                <span className="date-year">2025</span>
+              </div>
             </div>
-            <span className="date-separator"> | </span>
-            <span className="date-number">05</span>
-            <span className="date-separator"> | </span>
-            <div className="date-column">
-              <span className="date-month">Abril</span>
-              <span className="date-year">2025</span>
-            </div>
-          </div>
-        </motion.div>
+          </motion.div>
+          <motion.img
+            src={flordecoImage}
+            alt="Flor decorativa derecha"
+            className="flordeco-image right"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            loading="lazy"
+          />
+        </div>
       </div>
 
       {timeLeft && (
@@ -249,7 +267,7 @@ const Invitation = () => {
           <motion.img
             src={abejitaImage2}
             alt="Abejita Chiquita2"
-            className="abejita-animation"
+            className="abejita-animation2"
             animate={{ x: [-30, 30, -30], y: [-5, 5, -5], rotate: [0, 5, -5, 0] }}
             transition={{
               x: {
