@@ -78,12 +78,13 @@
   flex-direction: row; /* Abeja a la izquierda, dirección a la derecha */
 }
 
-.abejita-wrapper2,.abejita-wrapper {
+.abejita-wrapper2,
+.abejita-wrapper {
   width: 150px; /* Tamaño fijo para consistencia */
   max-width: 150px;
   margin: 0;
   position: relative;
-   display: flex;
+  display: flex;
   justify-content: center;
 }
 
@@ -96,8 +97,8 @@
 
 /* Contenido del contador */
 .counter-content {
-  width: 300px; /* Tamaño fijo para igualar visualmente */
-  max-width: 300px;
+  width: 340px; /* Tamaño fijo para igualar visualmente */
+  max-width: 340px;
   text-align: center;
 }
 
@@ -109,25 +110,23 @@
 }
 
 .time-blocks {
-  display: flex; /* Quitar flex-direction: column */
-  flex-direction: column; /* Mantenerlo como columna para separar números y etiquetas */
-  align-items: center;
-  gap: 10px; /* Espacio entre los números y las etiquetas */
-  margin-top: 10px;
-  position: relative; /* Para alinear las etiquetas debajo */
-}
-.time-numbers {
   display: flex;
   justify-content: center;
   gap: 10px; /* Espacio entre los bloques de números */
+  margin-top: 10px;
 }
+
 .time-block {
   background-color: #eed2e9;
   padding: 10px;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  width: 60px;
+  width: 90px; /* Aumentamos el ancho base para que crezca más allá de 50px */
   text-align: center;
+  display: flex;
+  flex-direction: column; /* Stack number and label vertically */
+  justify-content: center;
+  align-items: center;
 }
 
 .time-number {
@@ -136,19 +135,14 @@
   display: block;
 }
 
-.time-labels {
-  display: flex;
-  justify-content: ;
-  gap: 10px;
-  width: 100%;
-}
-
 .time-label {
   font-size: 0.9em;
   color: #777;
   text-align: center;
-  width: 60px;
+  margin-top: 5px; /* Añadimos margen para espaciar el texto */
+  width: auto; /* Corregimos el ancho absurdo de 5px */
 }
+
 .time-block span {
   font-size: 1.5em;
   color: #333;
@@ -427,51 +421,167 @@
     font-size: 2em;
   }
 
-  
   .date-block .date-day,
   .date-block .date-month {
-    font-size: 1.5em;
+    font-size: 1.9em;
   }
 
   .date-block .date-number {
-    font-size: 2em;
+    font-size: 3.5em;
   }
 
   .date-block .date-separator {
-    font-size: 1em;
+    font-size: 2.6em;
   }
 
   .date-block .date-time,
   .date-block .date-year {
-    font-size: 1em;
+    font-size: 2.3em;
   }
 
   .counter-content p {
     font-size: 1.5em;
   }
 
-  .time-blocks {
-     gap: 5px;
-  }
-  .time-numbers {
-    gap: 8px;
-  }
   .time-block {
-    width: 45px;
+    width:60px; /* Corregimos de 505px a 60px, un valor razonable */
     padding: 8px;
   }
+
   .time-number {
     font-size: 1.2em;
   }
 
-  .time-labels {
-    gap: 8px;
+  .time-label {
+    font-size: 0.8em;
+    width: 45px; /* Ajustamos el ancho del label */
+  }
+
+  .time-block span {
+    font-size: 1.2em;
+  }
+
+  .time-block p {
+    font-size: 0.8em;
+  }
+
+  .decor-image {
+    width: 250px;
+  }
+
+  .status {
+    font-size: 0.9em;
+  }
+
+  .message {
+    font-size: 0.9em;
+  }
+
+  .decor-top-image,
+  .decor-bottom-image {
+    height: auto;
+  }
+}
+/* Media Queries */
+@media (max-width: 768px) {
+  .invitation-container {
+    padding: 10px;
+  }
+
+  .counter-container {
+    flex-direction: row; /* Mantener horizontal en móvil */
+    justify-content: space-between;
+  }
+
+  .location-container {
+    flex-direction: row; /* Mantener horizontal en móvil */
+    justify-content: space-between;
+  }
+
+  .abejita-wrapper {
+    width: 100px;
+    max-width: 100px;
+  }
+
+  .location-info,
+  .counter-content {
+    width: 200px;
+    max-width: 200px;
+    text-align: center;
+  }
+
+  .location-title {
+    font-size: 1.2em;
+  }
+
+  .location-address {
+    font-size: 1em;
+  }
+
+  .map-link,
+  .yes-button {
+    font-size: 0.9em;
+    width: 100%;
+  }
+
+  .hija-image {
+    width: 300px;
+  }
+
+  .title {
+    font-size: 1.8em;
+    padding: 8px 15px;
+  }
+
+  .subtitle {
+    font-size: 2.4em;
+  }
+
+  .invite-text {
+    font-size: 1.5em;
+    padding: 8px 15px;
+  }
+
+  .name {
+    font-size: 2em;
+  }
+
+  .date-block .date-day,
+  .date-block .date-month {
+    font-size: 1.9em;
+  }
+
+  .date-block .date-number {
+    font-size: 3.5em;
+  }
+
+  .date-block .date-separator {
+    font-size: 2.6em;
+  }
+
+  .date-block .date-time,
+  .date-block .date-year {
+    font-size: 2.3em;
+  }
+
+  .counter-content p {
+    font-size: 1.5em;
+  }
+
+  .time-block {
+    width: 60px; /* Valor razonable para pantallas medianas */
+    padding: 8px;
+  }
+
+  .time-number {
+    font-size: 1.2em;
   }
 
   .time-label {
     font-size: 0.8em;
-    width: 45px;
+    width: auto; /* Ajustamos para que ocupe el ancho necesario */
   }
+
   .time-block span {
     font-size: 1.2em;
   }
@@ -504,10 +614,19 @@
     max-width: 80px;
   }
 
-  .location-info,
-  .counter-content {
+  .location-info {
     width: 180px;
     max-width: 180px;
+  }
+
+  .counter-content {
+    width: 300px; /* Aumentamos el ancho para permitir que los time-block crezcan */
+    max-width: 300px; /* Aumentamos para dar más espacio */
+    text-align: center;
+  }
+
+  .time-blocks {
+    gap: 5px; /* Reducimos el gap para que haya más espacio disponible */
   }
 
   .hija-image {
@@ -553,7 +672,7 @@
   }
 
   .time-block {
-    width: 25px;
+    width: 60px; /* Ajustamos a un valor razonable que pueda crecer */
     padding: 6px;
   }
 
@@ -561,14 +680,11 @@
     font-size: 1em;
   }
 
-  .time-labels {
-    gap: 5px;
-  }
-
   .time-label {
     font-size: 0.7em;
-    width: 25px;
+    width: auto; /* Ajustamos para que ocupe el ancho necesario */
   }
+
   .time-block span {
     font-size: 1em;
   }

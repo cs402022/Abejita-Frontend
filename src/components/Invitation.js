@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import { useParams } from 'react-router-dom';
-import arribaImage from '../assets/arriba.png'; // Nueva imagen superior
-import abajoImage from '../assets/abajo.png';  // Nueva imagen inferior
+import arribaImage from '../assets/arriba.png';
+import abajoImage from '../assets/abajo.png';
 import abejitaImage from '../assets/abejita.png';
 import abejitaImage2 from '../assets/abejita2.png';
 import decorImage from '../assets/decor.png';
@@ -13,6 +13,7 @@ import locationIcon from '../assets/location.png';
 import usuario from '../assets/usuario.png';
 import './Invitation.css';
 import flordecoImage from '../assets/flordeco.png';
+
 const Invitation = () => {
   const { nombre } = useParams();
   const [invitacion, setInvitacion] = useState(null);
@@ -25,11 +26,15 @@ const Invitation = () => {
       if (nombre) {
         try {
           const response = await axios.get(`${backendUrl}/invitacion/${nombre}`);
-          setInvitacion(response.data);
-          console.log('Invitación cargada:', response.data);
+          // Si no hay confirmación previa en el backend, forzamos asiste a null
+          const data = response.data.asiste === undefined || response.data.asiste === null 
+            ? { nombre: nombre, asiste: null }
+            : response.data;
+          setInvitacion(data);
+          console.log('Invitación cargada:', data);
         } catch (error) {
           console.error('Error fetching invitation:', error);
-          setInvitacion({ nombre: nombre, asiste: null });
+          setInvitacion({ nombre: nombre, asiste: null }); // Aseguramos que asiste sea null en caso de error
         }
       } else {
         console.log('No se proporcionó un nombre en la URL');
@@ -45,7 +50,11 @@ const Invitation = () => {
         await axios.post(`${backendUrl}/invitacion/${nombre}/confirmar`, { asiste });
         setMensaje('¡Confirmación enviada!');
         const response = await axios.get(`${backendUrl}/invitacion/${nombre}`);
-        setInvitacion(response.data);
+        // Forzamos que si no hay confirmación, asiste sea null
+        const updatedData = response.data.asiste === undefined || response.data.asiste === null 
+          ? { nombre: nombre, asiste: null }
+          : response.data;
+        setInvitacion(updatedData);
       } catch (error) {
         console.error('Error confirming attendance:', error);
         setMensaje('Error al confirmar');
@@ -132,9 +141,9 @@ const Invitation = () => {
           loading="lazy"
         />
       </div>
-      <p className="invite-text">
+       <p className="invite-text">
         {nombre
-          ? `${nombre.toUpperCase()}, TENEMOS EL HONOR DE INVITARTE A CELEBRAR EL PRIMER ANITO DE NUESTRA AMADA 🎉`
+          ? `${nombre.replace('_', ' ').toUpperCase()}, TENEMOS EL HONOR DE INVITARTE A CELEBRAR EL PRIMER ANITO DE NUESTRA AMADA 🎉`
           : 'TENEMOS EL HONOR DE INVITARTE A CELEBRAR EL PRIMER ANITO DE NUESTRA AMADA 🎉'}
       </p>
 
@@ -153,7 +162,7 @@ const Invitation = () => {
 
       {/* Contenedor para el nombre y la fecha */}
       <div className="name-date-wrapper">
-        <h3 className="name">Charlotte Suarez</h3>
+        <h3 className="name">Charlotte Suarez Armijos</h3>
         <motion.div
           className="date-container"
           initial={{ opacity: 0, scale: 0.9 }}
@@ -163,7 +172,7 @@ const Invitation = () => {
           <div className="date-block">
             <div className="date-column">
               <span className="date-day">Sábado</span>
-              <span className="date-time">14:00</span>
+              <span className="date-time">15:00</span>
             </div>
             <span className="date-separator"> | </span>
             <span className="date-number">05</span>
@@ -177,119 +186,126 @@ const Invitation = () => {
       </div>
 
       {timeLeft && (
-  <motion.div
-    className="counter-container"
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    transition={{ duration: 0.5 }}
-  >
-    <div className="counter-content">
-      <p>¿Cuánto falta?</p>
-      <div className="time-blocks">
-        <div className="time-numbers">
-          <div className="time-block">
-            <span className="time-number">{timeLeft.dias || 0}</span>
+        <motion.div
+          className="counter-container"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="counter-content">
+            <p>¿Cuánto falta?</p>
+            <div className="time-blocks">
+              <div className="time-block">
+                <span className="time-number">{timeLeft.dias || 0}</span>
+                <span className="time-label">Días</span>
+              </div>
+              <div className="time-block">
+                <span className="time-number">{timeLeft.horas || 0}</span>
+                <span className="time-label">Horas</span>
+              </div>
+              <div className="time-block">
+                <span className="time-number">{timeLeft.minutos || 0}</span>
+                <span className="time-label">Minutos</span>
+              </div>
+              <div className="time-block">
+                <span className="time-number">{timeLeft.segundos || 0}</span>
+                <span className="time-label">Segundos</span>
+              </div>
+            </div>
           </div>
-          <div className="time-block">
-            <span className="time-number">{timeLeft.horas || 0}</span>
+          <div className="abejita-wrapper">
+            <motion.img
+              src={abejitaImage}
+              alt="Abejita Chiquita"
+              className="abejita-animation"
+              animate={{ x: [30, -30, 30], y: [-5, 5, -5], rotate: [0, 5, -5, 0] }}
+              transition={{
+                x: {
+                  repeat: Infinity,
+                  repeatType: "loop",
+                  duration: 3,
+                  ease: "easeInOut",
+                },
+                y: {
+                  repeat: Infinity,
+                  repeatType: "mirror",
+                  duration: 3,
+                  ease: "easeInOut",
+                },
+                rotate: {
+                  repeat: Infinity,
+                  repeatType: "loop",
+                  duration: 3,
+                  ease: "easeInOut",
+                },
+              }}
+              loading="lazy"
+            />
           </div>
-          <div className="time-block">
-            <span className="time-number">{timeLeft.minutos || 0}</span>
-          </div>
-          <div className="time-block">
-            <span className="time-number">{timeLeft.segundos || 0}</span>
-          </div>
+        </motion.div>
+      )}
+      <div className="location-container">
+        <div className="abejita-wrapper2">
+          <motion.img
+            src={abejitaImage2}
+            alt="Abejita Chiquita2"
+            className="abejita-animation"
+            animate={{ x: [-30, 30, -30], y: [-5, 5, -5], rotate: [0, 5, -5, 0] }}
+            transition={{
+              x: {
+                repeat: Infinity,
+                repeatType: "loop",
+                duration: 2.5,
+                ease: "easeInOut",
+              },
+              y: {
+                repeat: Infinity,
+                repeatType: "mirror",
+                duration: 3,
+                ease: "easeInOut",
+              },
+              rotate: {
+                repeat: Infinity,
+                repeatType: "loop",
+                duration: 3,
+                ease: "easeInOut",
+              },
+            }}
+            loading="lazy"
+          />
         </div>
-        <div className="time-labels">
-          <span className="time-label">Días</span>
-          <span className="time-label"> Horas</span>
-          <span className="time-label">Minutos</span>
-          <span className="time-label">Segundos</span>
+        <div className="location-info">
+          <p className="location-title">Dirección:</p>
+          <p className="location-address">Samanes 7 Mz 2246 Villa 6</p>
+          <div className="button-container">
+            <a
+              href="https://www.google.com/maps?q=-2.1594111999999996,-79.9244288"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="map-link"
+            >
+              <img src={locationIcon} alt="Ubicación" className="icon" /> Ver ubicación
+            </a>
+            {invitacion && (
+              <div className="confirmation">
+                {invitacion.asiste === null ? (
+                  <motion.button
+                    onClick={() => confirmarAsistencia(true)}
+                    className="yes-button"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                  >
+                    <img src={usuario} alt="Ubicación" className="icon" /> Confirma tu asistencia
+                  </motion.button>
+                ) : (
+                  <p className="status">Estado: {invitacion.asiste ? 'Asistirá' : 'No asistirá'}</p>
+                )}
+                {mensaje && <p className="message">{mensaje}</p>}
+              </div>
+            )}
+          </div>
         </div>
       </div>
-    </div>
-    <div className="abejita-wrapper">
-      <motion.img
-        src={abejitaImage}
-        alt="Abejita Chiquita"
-        className="abejita-animation"
-        animate={{ x: [30, -30, 30], y: [-5, 5, -5], rotate: [0, 5, -5, 0] }}
-        transition={{
-          x: {
-            repeat: Infinity,
-            repeatType: "loop",
-            duration: 3,
-            ease: "easeInOut",
-          },
-          y: {
-            repeat: Infinity,
-            repeatType: "mirror",
-            duration: 3,
-            ease: "easeInOut",
-          },
-          rotate: {
-            repeat: Infinity,
-            repeatType: "loop",
-            duration: 3,
-            ease: "easeInOut",
-          },
-        }}        loading="lazy"
-      />
-    </div>
-  </motion.div>
-)}
-
-<div className="location-container">
-  <div className="abejita-wrapper2">
-    <motion.img
-      src={abejitaImage2}
-      alt="Abejita Chiquita2"
-      className="abejita-animation"
-      animate={{ x: [-30, 30, -30], y: [-5, 5, -5], rotate: [0, 5, -5, 0] }}
-      transition={{
-        x: {
-          repeat: Infinity,
-          repeatType: "loop",
-          duration: 2.5,
-          ease: "easeInOut",
-        },
-        y: {
-          repeat: Infinity,
-          repeatType: "mirror",
-          duration: 3,
-          ease: "easeInOut",
-        },
-        rotate: {
-          repeat: Infinity,
-          repeatType: "loop",
-          duration: 3,
-          ease: "easeInOut",
-        },
-      }}      loading="lazy"
-    />
-  </div>
-  <div className="location-info">
-    <p className="location-title">Dirección:</p>
-    <p className="location-address">Samanes 7 Mz 2246 Villa 6</p>
-    <div className="button-container">
-      <a href="https://www.google.com/maps?q=-2.1594111999999996,-79.9244288" target="_blank" rel="noopener noreferrer" className="map-link">
-        <img src={locationIcon} alt="Ubicación" className="icon" /> Ver ubicación
-      </a>
-      {invitacion && (
-        <div className="confirmation">
-          {invitacion.asiste === null ? (
-            <motion.button onClick={() => confirmarAsistencia(true)} className="yes-button" whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-              <img src={usuario} alt="Ubicación" className="icon" /> Confirma tu asistencia
-            </motion.button>
-          ) : (
-            <p className="status">Estado: {invitacion.asiste ? 'Asistirá' : 'No asistirá'}</p>
-          )}
-          {mensaje && <p className="message">{mensaje}</p>}
-        </div>
-      )}
-    </div>
-  </div>
-</div>
       {/* Imagen decorativa inferior */}
       <div className="decor-bottom-wrapper">
         <motion.img
