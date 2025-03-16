@@ -2,10 +2,17 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import { useParams } from 'react-router-dom';
+import arribaImage from '../assets/arriba.png'; // Nueva imagen superior
+import abajoImage from '../assets/abajo.png';  // Nueva imagen inferior
 import abejitaImage from '../assets/abejita.png';
+import abejitaImage2 from '../assets/abejita2.png';
 import decorImage from '../assets/decor.png';
+import hijadisfrazada from '../assets/hijadisfrazadamejor.png';
+import song from '../assets/background-song.mp3';
+import locationIcon from '../assets/location.png';
+import usuario from '../assets/usuario.png';
 import './Invitation.css';
-
+import flordecoImage from '../assets/flordeco.png';
 const Invitation = () => {
   const { nombre } = useParams();
   const [invitacion, setInvitacion] = useState(null);
@@ -76,108 +83,225 @@ const Invitation = () => {
 
   return (
     <div className="invitation-container">
-      <motion.h1
-        className="title"
-        initial={{ opacity: 0, y: -50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-      >
-        La dulce espera está por terminar! 🌼
-      </motion.h1>
+      {/* Imagen decorativa superior */}
+      <div className="decor-top-wrapper">
+        <motion.img
+          src={arribaImage}
+          alt="Decoración superior"
+          className="decor-top-image"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          loading="lazy"
+        />
+      </div>
+
+      {/* Audio que se reproduce al abrir la página */}
+      <audio autoPlay loop>
+        <source src={song} type="audio/mp3" />
+        Tu navegador no soporta el elemento de audio.
+      </audio>
+
+      {/* Sección 1: Título, abeja animada, texto inicial */}
+      <div className="title-wrapper">
+        <motion.h1
+          className="title"
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+        >
+          {/* Puedes agregar texto aquí si lo deseas, por ejemplo: "Invitación" */}
+        </motion.h1>
+        <motion.h2
+          className="subtitle"
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.2 }}
+        >
+          Mi primer añito🌼
+        </motion.h2>
+      </div>
+
+      <div className="decor-wrapper">
+        <motion.img
+          src={decorImage}
+          alt="Decoración"
+          className="decor-image"
+          animate={{ x: [0, 30, 0], y: [0, 10, 0], rotate: [0, 5, -5, 0] }}
+          transition={{ duration: 4, repeat: Infinity }}
+          loading="lazy"
+        />
+      </div>
+      <p className="invite-text">
+        {nombre
+          ? `${nombre.toUpperCase()}, TENEMOS EL HONOR DE INVITARTE A CELEBRAR EL PRIMER ANITO DE NUESTRA AMADA 🎉`
+          : 'TENEMOS EL HONOR DE INVITARTE A CELEBRAR EL PRIMER ANITO DE NUESTRA AMADA 🎉'}
+      </p>
+
+      {/* Imagen de la cumpleañera (hijadisfrazada) */}
+      <div className="hija-wrapper">
+        <motion.img
+          src={hijadisfrazada}
+          alt="Cumpleañera"
+          className="hija-image"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8 }}
+          loading="lazy"
+        />
+      </div>
+
+      {/* Contenedor para el nombre y la fecha */}
+      <div className="name-date-wrapper">
+        <h3 className="name">Charlotte Suarez</h3>
+        <motion.div
+          className="date-container"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8 }}
+        >
+          <div className="date-block">
+            <div className="date-column">
+              <span className="date-day">Sábado</span>
+              <span className="date-time">14:00</span>
+            </div>
+            <span className="date-separator"> | </span>
+            <span className="date-number">05</span>
+            <span className="date-separator"> | </span>
+            <div className="date-column">
+              <span className="date-month">Abril</span>
+              <span className="date-year">2025</span>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+
+      {timeLeft && (
+  <motion.div
+    className="counter-container"
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ duration: 0.5 }}
+  >
+    <div className="counter-content">
+      <p>¿Cuánto falta?</p>
+      <div className="time-blocks">
+        <div className="time-numbers">
+          <div className="time-block">
+            <span className="time-number">{timeLeft.dias || 0}</span>
+          </div>
+          <div className="time-block">
+            <span className="time-number">{timeLeft.horas || 0}</span>
+          </div>
+          <div className="time-block">
+            <span className="time-number">{timeLeft.minutos || 0}</span>
+          </div>
+          <div className="time-block">
+            <span className="time-number">{timeLeft.segundos || 0}</span>
+          </div>
+        </div>
+        <div className="time-labels">
+          <span className="time-label">Días</span>
+          <span className="time-label"> Horas</span>
+          <span className="time-label">Minutos</span>
+          <span className="time-label">Segundos</span>
+        </div>
+      </div>
+    </div>
+    <div className="abejita-wrapper">
       <motion.img
         src={abejitaImage}
         alt="Abejita Chiquita"
         className="abejita-animation"
-        animate={{ x: [0, 50, 0], y: [0, 20, 0], rotate: [0, 10, -10, 0] }}
-        transition={{ duration: 4, repeat: Infinity }}
+        animate={{ x: [30, -30, 30], y: [-5, 5, -5], rotate: [0, 5, -5, 0] }}
+        transition={{
+          x: {
+            repeat: Infinity,
+            repeatType: "loop",
+            duration: 3,
+            ease: "easeInOut",
+          },
+          y: {
+            repeat: Infinity,
+            repeatType: "mirror",
+            duration: 3,
+            ease: "easeInOut",
+          },
+          rotate: {
+            repeat: Infinity,
+            repeatType: "loop",
+            duration: 3,
+            ease: "easeInOut",
+          },
+        }}        loading="lazy"
       />
-      <h2 className="name">Dayanna Suarez</h2>
-      <p className="invite-text">Te invitamos a celebrar mi primer cumple...</p>
-      <motion.div
-        className="date-container"
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.8 }}
-      >
-        <h1>¡Estás invitado a una celebración especial!</h1>
-        <p>
-          <span>Sábado</span> | <span>14:00</span> | <span>05</span> | <span>Abril 2025</span>
-        </p>
-        <p>¡No faltes, te esperamos con cariño!</p>
-      </motion.div>
-      <hr className="section-divider" />
-      {timeLeft && (
-        <motion.div
-          className="counter"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <p>¡Cuánto falta?</p>
-          <div className="time">
-            <span>{timeLeft.dias || 0} Días</span>
-            <span>{timeLeft.horas || 0} Horas</span>
-            <span>{timeLeft.minutos || 0} Minutos</span>
-            <span>{timeLeft.segundos || 0} Segundos</span>
-          </div>
-          <img src={decorImage} alt="Decoración" className="decor-image" />
-        </motion.div>
-      )}
-      <hr className="section-divider" />
-      <div className="location">
-        <p>Dirección: Samanes 7 mz 1234 villa 1234</p>
-        <a
-          href="https://www.google.com/maps?q=-2.1594111999999996,-79.9244288"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="map-link"
-        >
-          Abrir en Google Maps
-        </a>
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d127583.51969298511!2d-79.9244288!3d-2.1594111999999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses!2sec!4v1741543233116!5m2!1ses!2sec&marker=2.1594111999999996,-79.9244288"
-          width="400"
-          height="400"
-          style={{ border: '0', borderRadius: '10px' }}
-          allowFullScreen=""
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-        ></iframe>
-      </div>
-      <hr className="section-divider" />
+    </div>
+  </motion.div>
+)}
+
+<div className="location-container">
+  <div className="abejita-wrapper2">
+    <motion.img
+      src={abejitaImage2}
+      alt="Abejita Chiquita2"
+      className="abejita-animation"
+      animate={{ x: [-30, 30, -30], y: [-5, 5, -5], rotate: [0, 5, -5, 0] }}
+      transition={{
+        x: {
+          repeat: Infinity,
+          repeatType: "loop",
+          duration: 2.5,
+          ease: "easeInOut",
+        },
+        y: {
+          repeat: Infinity,
+          repeatType: "mirror",
+          duration: 3,
+          ease: "easeInOut",
+        },
+        rotate: {
+          repeat: Infinity,
+          repeatType: "loop",
+          duration: 3,
+          ease: "easeInOut",
+        },
+      }}      loading="lazy"
+    />
+  </div>
+  <div className="location-info">
+    <p className="location-title">Dirección:</p>
+    <p className="location-address">Samanes 7 Mz 2246 Villa 6</p>
+    <div className="button-container">
+      <a href="https://www.google.com/maps?q=-2.1594111999999996,-79.9244288" target="_blank" rel="noopener noreferrer" className="map-link">
+        <img src={locationIcon} alt="Ubicación" className="icon" /> Ver ubicación
+      </a>
       {invitacion && (
-        <motion.div
-          className="confirmation"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <p className="status">
-            Estado: {invitacion.asiste === null ? 'Pendiente' : invitacion.asiste ? 'Asistirá' : 'No asistirá'}
-          </p>
-          {invitacion.asiste === null && (
-            <div className="buttons">
-              <motion.button
-                onClick={() => confirmarAsistencia(true)}
-                className="yes-button"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                Sí, asistiré
-              </motion.button>
-              <motion.button
-                onClick={() => confirmarAsistencia(false)}
-                className="no-button"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                No, no asistiré
-              </motion.button>
-            </div>
+        <div className="confirmation">
+          {invitacion.asiste === null ? (
+            <motion.button onClick={() => confirmarAsistencia(true)} className="yes-button" whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+              <img src={usuario} alt="Ubicación" className="icon" /> Confirma tu asistencia
+            </motion.button>
+          ) : (
+            <p className="status">Estado: {invitacion.asiste ? 'Asistirá' : 'No asistirá'}</p>
           )}
           {mensaje && <p className="message">{mensaje}</p>}
-        </motion.div>
+        </div>
       )}
+    </div>
+  </div>
+</div>
+      {/* Imagen decorativa inferior */}
+      <div className="decor-bottom-wrapper">
+        <motion.img
+          src={abajoImage}
+          alt="Decoración inferior"
+          className="decor-bottom-image"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          loading="lazy"
+        />
+      </div>
     </div>
   );
 };
