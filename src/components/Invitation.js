@@ -14,33 +14,38 @@ import usuario from '../assets/usuario.png';
 import './Invitation.css';
 import flordecoImage from '../assets/flordeco.png';
 import barrildecoImage from '../assets/barril.png';
+
 const Invitation = () => {
   const { nombre } = useParams();
   const [invitacion, setInvitacion] = useState(null);
   const [mensaje, setMensaje] = useState('');
+  const [hasPlayed, setHasPlayed] = useState(false); // Estado para evitar múltiples reproducciones
+  const [showOverlay, setShowOverlay] = useState(true); // Estado para mostrar/ocultar el overlay
   const backendUrl = 'https://abejita-backend.onrender.com';
 
   // Referencia para controlar el audio
   const audioRef = useRef(null);
 
-  // Controlar la reproducción del audio
-  useEffect(() => {
+  // Función para reproducir el audio y ocultar el overlay
+  const handleStartInteraction = () => {
     const audio = audioRef.current;
-
-    // Reproducir el audio manualmente
-    audio.play().catch((error) => {
-      console.error('Error al reproducir el audio:', error);
-    });
-
-    // Detener después de 60 segundos (1 minuto)
-    const timeout = setTimeout(() => {
-      audio.pause();
-      audio.currentTime = 0; // Reinicia el audio al principio
-    }, 60 * 1000); // 60 segundos
-
-    // Limpiar el timeout al desmontar el componente
-    return () => clearTimeout(timeout);
-  }, []);
+    if (audio && !hasPlayed) {
+      audio.play()
+        .then(() => {
+          console.log('Audio iniciado tras interacción explícita');
+          setHasPlayed(true);
+          setShowOverlay(false); // Ocultar el overlay
+          setTimeout(() => {
+            audio.pause();
+            audio.currentTime = 0;
+            setHasPlayed(false);
+          }, 60 * 1000);
+        })
+        .catch((error) => {
+          console.error('Error al reproducir el audio tras interacción:', error);
+        });
+    }
+  };
 
   // Consultar invitación
   useEffect(() => {
@@ -84,9 +89,9 @@ const Invitation = () => {
     }
   };
 
-  // Contador hasta 5 de abril de 2025, 14:00
+  // Contador hasta 5 de abril de 2025, 15:00
   const calculateTimeLeft = () => {
-    const eventDate = new Date('2025-04-05T14:00:00');
+    const eventDate = new Date('2025-04-05T15:00:00');
     const now = new Date();
     const difference = eventDate - now;
     let timeLeft = {};
@@ -112,6 +117,36 @@ const Invitation = () => {
 
   return (
     <div className="invitation-container">
+      {/* Overlay inicial para solicitar interacción */}
+      {showOverlay && (
+        <motion.div
+          className="overlay"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="overlay-content">
+            <h2>¡Bienvenido/a!</h2>
+            <p>Toca aquí para comenzar la experiencia</p>
+            <motion.button
+              onClick={handleStartInteraction}
+              onTouchStart={handleStartInteraction}
+              className="start-button"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              Comenzar
+            </motion.button>
+          </div>
+        </motion.div>
+      )}
+
+      {/* Audio que se reproduce al interactuar */}
+      <audio ref={audioRef}>
+        <source src={song} type="audio/mp3" />
+        Tu navegador no soporta el elemento de audio.
+      </audio>
+
       {/* Imagen decorativa superior */}
       <div className="decor-top-wrapper">
         <motion.img
@@ -124,12 +159,6 @@ const Invitation = () => {
           loading="lazy"
         />
       </div>
-
-      {/* Audio que se reproduce al abrir la página */}
-      <audio ref={audioRef}>
-        <source src={song} type="audio/mp3" />
-        Tu navegador no soporta el elemento de audio.
-      </audio>
 
       {/* Sección 1: Título, abeja animada, texto inicial */}
       <div className="title-wrapper">
@@ -187,7 +216,7 @@ const Invitation = () => {
           transition={{ duration: 0.8 }}
           loading="lazy"
         />
-            <motion.img
+        <motion.img
           src={flordecoImage}
           alt="flor decorativo izquierda"
           className="flordeco-image left2"
@@ -196,7 +225,6 @@ const Invitation = () => {
           transition={{ duration: 0.8 }}
           loading="lazy"
         />
-        
         <motion.img
           src={flordecoImage}
           alt="flor decorativo derecha"
@@ -206,9 +234,6 @@ const Invitation = () => {
           transition={{ duration: 0.8 }}
           loading="lazy"
         />
-          
-      
-        
         <motion.img
           src={flordecoImage}
           alt="flor decorativo derecha"
@@ -218,7 +243,7 @@ const Invitation = () => {
           transition={{ duration: 0.8 }}
           loading="lazy"
         />
-         <motion.img
+        <motion.img
           src={flordecoImage}
           alt="flor decorativo derecha"
           className="flordeco-image right2"

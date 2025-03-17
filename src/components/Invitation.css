@@ -1,13 +1,66 @@
-/* Estilos base */
+/* Estilos para el overlay inicial */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.overlay-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 90%;
+}
+
+.overlay-content h2 {
+  font-size: 1.8em;
+  color: #756e44;
+  font-family: 'Rochester', cursive;
+  margin-bottom: 10px;
+}
+
+.overlay-content p {
+  font-size: 1.2em;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.start-button {
+  background-color: #F8BFD1;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.2em;
+  border-radius: 25px;
+  cursor: pointer;
+  font-family: 'Cardo', serif;
+}
+
+.start-button:hover {
+  background-color: #FFD700;
+}
+
+/* Asegurar que el contenedor principal permita desplazamiento vertical */
 .invitation-container {
   text-align: center;
   padding: 20px;
   background-color: #eed2e9;
-  font-family: 'Noto Serif', serif;
+  font-family: 'Cardo', serif;
   width: 100%;
   max-width: 100%;
   overflow-x: hidden;
+  overflow-y: auto; /* Asegurar que el desplazamiento vertical esté habilitado */
   box-sizing: border-box;
+  min-height: 100vh; /* Asegurar que el contenedor tenga suficiente altura */
 }
 
 /* Imágenes decorativas superior e inferior */
@@ -46,7 +99,7 @@
 .subtitle {  
   font-size: 2.8em;  
   color: #756e44;  
-  font-family: 'Rochester', cursive; /* Cambia 'Great Vibes' por 'Rochester' */  
+  font-family: 'Rochester', cursive;   
   margin: 0;  
   padding-top: 0; /* Podrías intentar agregar un padding en lugar de margen */  
 
@@ -57,7 +110,8 @@
 .location-container {
   display: flex;
   align-items: center;
-  margin: 20px 0;
+   margin: 0 0 20px 0; /* Reducimos el margen superior para acercar al date-block */
+
   width: 100%;
   max-width: 600px;
   margin-left: auto;
@@ -111,7 +165,7 @@
 }
 
 .counter-content p {
-  font-size: 2.5em;
+  font-size: 3.5em;
   color: #8f9c70;
   font-family: 'Rochester', cursive; /* Cambia 'Great Vibes' por 'Rochester' */  
   margin-bottom: 10px;
@@ -266,7 +320,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 15px 0;
+  margin: 15px 0 0 0;
 }
 
 .decorated-date-wrapper {
@@ -276,6 +330,8 @@
   justify-content: center;
   width: 100%;
   max-width: 600px; /* Ajusta según el ancho deseado */
+  margin-bottom: -10px; /* Añadimos un margen negativo para subir el contador */
+
 }
 .barrildeco-image {
   width: 80px; /* Ajusta el tamaño de la imagen de la flor */
@@ -322,6 +378,7 @@
 .invite-text,
 .name,
 .date-container {
+  margin: 0; /* Eliminamos el margen para evitar espacio extra */
   background-color: #eed2e9;
   padding: 10px 20px;
   border-radius: 10px;
@@ -331,7 +388,7 @@
 .invite-text {
   font-size: 2.2em;
   color: #756e44;
-  font-family: 'Playfair Display', serif;
+  font-family: 'Cardo', serif;  
   margin: 10px 0;
 }
 
@@ -344,6 +401,7 @@
 
 .date-container {
   margin: 10px 0 0 0;
+  
 }
 
 .date-block {
@@ -358,6 +416,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  
 }
 
 .date-block .date-day,
@@ -366,6 +425,7 @@
   color: #333;
   font-weight: bold;
   display: block;
+  
 }
 
 .date-block .date-number {
@@ -373,17 +433,18 @@
   color: #d4b819;
   display: block;
   font-weight: bold;
+  
 }
 
 .date-block .date-separator {
   font-size: 1.5em;
-  color: #999581;
+  color: #d4b819;
   display: block;
 }
 
 .date-block .date-time {
   font-size: 1.5em;
-  color: #999581;
+  color: #d4b819;
   font-weight: bold;
   display: block;
   grid-row: 2;
@@ -392,7 +453,7 @@
 
 .date-block .date-year {
   font-size: 1.5em;
-  color: #999581;
+  color: #d4b819;
   font-weight: bold;
   display: block;
   grid-row: 2;
@@ -489,7 +550,7 @@
   }
 
   .counter-content p {
-    font-size: 1.5em;
+    font-size: 2.5em;
   }
 
   .time-block {
@@ -563,6 +624,19 @@
 }
 
 @media (max-width: 480px) {
+  .decor-top-wrapper {
+    margin-bottom: -65px; /* Ajuste para pantallas pequeñas */
+  }
+
+  .title-wrapper {
+    margin-top: -5px;
+  }
+
+  .subtitle {
+    font-size: 2.2em;
+    padding-top: 3px;
+  }
+
   .abejita-wrapper {
     width: 80px;
     max-width: 80px;
@@ -613,7 +687,7 @@
   }
 
   .date-block .date-separator {
-    font-size: 0.8em;
+    font-size: 1.4em;
   }
 
   .date-block .date-time,
@@ -622,7 +696,7 @@
   }
 
   .counter-content p {
-    font-size: 1.5em;
+    font-size:2.0em;
   }
 
   .time-block {
@@ -657,19 +731,19 @@
   .barrildeco-image.left {
     left: 20px;
     transform: translate(0, -50%);
-    top: 20%;
+    top: 18%;
   }
   
 
   .flordeco-image.right {
     right: 40px; /*centrar*/
     transform: translate(0, -55%); /* Ajuste para subir la flor derecha */
-    top: 65%; /*arriba*/
+    top: 55%; /*arriba*/
   }
   .flordeco-image.right2 {
     right: 40px; /*centrar*/
     transform: translate(0, -55%); /* Ajuste para subir la flor derecha */
-    top: 88.69%; /*arriba*/
+    top: 75.35%; /*arriba*/
   }
   .flordeco-image {
     width: 50px; /* Ajuste para pantallas pequeñas */
@@ -678,13 +752,13 @@
   .flordeco-image.left {
     left: 20px;
     transform: translate(0, -50%);
-    top: 88.95%;
+    top: 75.95%;
   }
   
   .flordeco-image.left2 {
     left: 20px;
     transform: translate(0, -50%);
-    top: 65.35%;
+    top: 55.35%;
   }
 
   .barrildeco-image.right {
@@ -697,7 +771,7 @@
   .flordeco-image.right3 {
     right: 68px; /*centrar*/
     transform: translate(0, -55%); /* Ajuste para subir la flor derecha */
-    top: 22.55%; /*arriba*/
+    top: 12.55%; /*arriba*/
   }
   .status {
     font-size: 0.8em;
