@@ -48,7 +48,7 @@ const Invitation = () => {
       if (nombre) {
         try {
           const response = await axios.get(`${backendUrl}/invitacion/${nombre}`);
-          const data = response.data.asiste === undefined || response.data.asiste === null 
+          const data = response.data.asiste === undefined || response.data.asiste === null
             ? { nombre: nombre, asiste: null }
             : response.data;
           setInvitacion(data);
@@ -71,7 +71,7 @@ const Invitation = () => {
         await axios.post(`${backendUrl}/invitacion/${nombre}/confirmar`, { asiste });
         setMensaje('¡Confirmación enviada!');
         const response = await axios.get(`${backendUrl}/invitacion/${nombre}`);
-        const updatedData = response.data.asiste === undefined || response.data.asiste === null 
+        const updatedData = response.data.asiste === undefined || response.data.asiste === null
           ? { nombre: nombre, asiste: null }
           : response.data;
         setInvitacion(updatedData);
@@ -147,7 +147,7 @@ const Invitation = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.2 }}
         >
-          Mi primer añito🌼
+          Mi primer añito
         </motion.h2>
       </div>
 
@@ -175,6 +175,55 @@ const Invitation = () => {
           className="hija-image"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8 }}
+          loading="lazy"
+        />
+        <motion.img
+          src={flordecoImage}
+          alt="flor decorativo izquierda"
+          className="flordeco-image left"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+          loading="lazy"
+        />
+            <motion.img
+          src={flordecoImage}
+          alt="flor decorativo izquierda"
+          className="flordeco-image left2"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+          loading="lazy"
+        />
+        
+        <motion.img
+          src={flordecoImage}
+          alt="flor decorativo derecha"
+          className="flordeco-image right"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+          loading="lazy"
+        />
+          
+      
+        
+        <motion.img
+          src={flordecoImage}
+          alt="flor decorativo derecha"
+          className="flordeco-image right3"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+          loading="lazy"
+        />
+         <motion.img
+          src={flordecoImage}
+          alt="flor decorativo derecha"
+          className="flordeco-image right2"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
           loading="lazy"
         />
@@ -319,7 +368,7 @@ const Invitation = () => {
           <p className="location-address">Samanes 7 Mz 2246 Villa 6</p>
           <div className="button-container">
             <a
-              href="https://www.google.com/maps?q=-2.1594111999999996,-79.9244288"
+              href="https://www.google.com/maps/place/2%C2%B006'42.3%22S+79%C2%B054'43.6%22W/@-2.111743,-79.912101,17z/data=!3m1!4b1!4m4!3m3!8m2!3d-2.111743!4d-79.912101?entry=ttu&g_ep=EgoyMDI1MDMxMi4wIKXMDSoASAFQAw%3D%3D"
               target="_blank"
               rel="noopener noreferrer"
               className="map-link"

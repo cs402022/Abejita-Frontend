@@ -39,22 +39,17 @@
 }
 
 /* Contenedor para título y subtítulo */
-.title-wrapper {
-  text-align: center;
-  margin-bottom: 20px;
-}
+ 
 
-.title {
-  font-size: 2.5em;
-  color: #3b4c53;
-  font-family: 'Great Vibes', cursive;
-}
+ 
 
 .subtitle {  
   font-size: 2.8em;  
   color: #756e44;  
   font-family: 'Rochester', cursive; /* Cambia 'Great Vibes' por 'Rochester' */  
-  margin: 10px 0;  
+  margin: 0;  
+  padding-top: 0; /* Podrías intentar agregar un padding en lugar de margen */  
+
 }  
 
 /* Contenedor para abeja y contenido (contador o dirección) */
@@ -299,7 +294,23 @@
   transform: translate(100%, -55%); /* Ajuste para subir la flor derecha */
   top: 34%; /* Mantiene la misma posición base */
 }
+.flordeco-image {
+  width: 80px; /* Ajusta el tamaño de la imagen de la flor */
+  height: auto;
+  position: absolute;
+}
 
+.flordeco-image.left {
+  left: 0;
+  transform: translate(-100%, -50%); /* Desplazamiento inicial */
+  top: 40%; /* Posición base */
+}
+
+.flordeco-image.right {
+  right: 0;
+  transform: translate(100%, -55%); /* Ajuste para subir la flor derecha */
+  top: 34%; /* Mantiene la misma posición base */
+}
 .decor-wrapper {
   width: 100%;
   background-color: #eed2e9;
@@ -522,6 +533,21 @@
     top: 40%;
   }
 
+  .flordeco-image {
+    width: 50px; /* Ajuste para pantallas medianas */
+  }
+
+  .flordeco-image.left {
+    left: 20px;
+    transform: translate(0, -50%);
+    top: 40%;
+  }
+
+  .flordeco-image.right {
+    right: 20px;
+    transform: translate(0, -55%); /* Ajuste para subir la flor derecha */
+    top: 40%;
+  }
   .status {
     font-size: 0.9em;
   }
@@ -633,14 +659,46 @@
     transform: translate(0, -50%);
     top: 20%;
   }
+  
+
+  .flordeco-image.right {
+    right: 40px; /*centrar*/
+    transform: translate(0, -55%); /* Ajuste para subir la flor derecha */
+    top: 65%; /*arriba*/
+  }
+  .flordeco-image.right2 {
+    right: 40px; /*centrar*/
+    transform: translate(0, -55%); /* Ajuste para subir la flor derecha */
+    top: 88.69%; /*arriba*/
+  }
+  .flordeco-image {
+    width: 50px; /* Ajuste para pantallas pequeñas */
+  }
+
+  .flordeco-image.left {
+    left: 20px;
+    transform: translate(0, -50%);
+    top: 88.95%;
+  }
+  
+  .flordeco-image.left2 {
+    left: 20px;
+    transform: translate(0, -50%);
+    top: 65.35%;
+  }
 
   .barrildeco-image.right {
     right: 20px; /*centrar*/
     transform: translate(0, -55%); /* Ajuste para subir la flor derecha */
     top: 15%; /*arriba*/
   }
-
  
+
+  .flordeco-image.right3 {
+    right: 68px; /*centrar*/
+    transform: translate(0, -55%); /* Ajuste para subir la flor derecha */
+    top: 22.55%; /*arriba*/
+  }
   .status {
     font-size: 0.8em;
   }
