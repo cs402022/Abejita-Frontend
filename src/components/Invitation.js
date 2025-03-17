@@ -11,9 +11,9 @@ import hijadisfrazada from '../assets/hijadisfrazadamejor.png';
 import song from '../assets/background-song.mp3';
 import locationIcon from '../assets/location.png';
 import usuario from '../assets/usuario.png';
+import './Invitation.css';
 import flordecoImage from '../assets/flordeco.png';
 import barrildecoImage from '../assets/barril.png';
-import './Invitation.css';
 
 const Invitation = () => {
   const { nombre } = useParams();
@@ -30,8 +30,7 @@ const Invitation = () => {
   const handleStartInteraction = () => {
     const audio = audioRef.current;
     if (audio && !hasPlayed) {
-      audio
-        .play()
+      audio.play()
         .then(() => {
           console.log('Audio iniciado tras interacción explícita');
           setHasPlayed(true);
@@ -54,10 +53,9 @@ const Invitation = () => {
       if (nombre) {
         try {
           const response = await axios.get(`${backendUrl}/invitacion/${nombre}`);
-          const data =
-            response.data.asiste === undefined || response.data.asiste === null
-              ? { nombre: nombre, asiste: null }
-              : response.data;
+          const data = response.data.asiste === undefined || response.data.asiste === null
+            ? { nombre: nombre, asiste: null }
+            : response.data;
           setInvitacion(data);
           console.log('Invitación cargada:', data);
         } catch (error) {
@@ -78,10 +76,9 @@ const Invitation = () => {
         await axios.post(`${backendUrl}/invitacion/${nombre}/confirmar`, { asiste });
         setMensaje('¡Confirmación enviada!');
         const response = await axios.get(`${backendUrl}/invitacion/${nombre}`);
-        const updatedData =
-          response.data.asiste === undefined || response.data.asiste === null
-            ? { nombre: nombre, asiste: null }
-            : response.data;
+        const updatedData = response.data.asiste === undefined || response.data.asiste === null
+          ? { nombre: nombre, asiste: null }
+          : response.data;
         setInvitacion(updatedData);
       } catch (error) {
         console.error('Error confirming attendance:', error);
@@ -196,7 +193,7 @@ const Invitation = () => {
       <p className="invite-text">
         {nombre
           ? `${nombre.replace('_', ' ').toUpperCase()}, TENEMOS EL HONOR DE INVITARTE AL PRIMER AÑITO DE NUESTRA PRINCESA 🎉`
-          : 'TENEMOS EL HONOR DE INVITARTE AL PRIMER AÑITO DE NUESTRA PRINCESA 🎉'}
+          : 'TENEMOS EL HONOR DE INVITARTE AL PRIMER AÑITO DE NUESTRA PRINCESA  🎉'}
       </p>
 
       {/* Imagen de la cumpleañera (hijadisfrazada) */}
@@ -278,7 +275,6 @@ const Invitation = () => {
           >
             <div className="date-block">
               <div className="date-column">
-                <img src={flordecoImage} alt="Flor decorativa" className="flower-decor flower-left" />
                 <span className="date-day">Sábado</span>
                 <span className="date-time">15:00</span>
               </div>
@@ -287,7 +283,6 @@ const Invitation = () => {
               <span className="date-separator"> | </span>
               <div className="date-column">
                 <span className="date-month">Abril</span>
-                <img src={flordecoImage} alt="Flor decorativa" className="flower-decor flower-right" />
                 <span className="date-year">2025</span>
               </div>
             </div>
@@ -417,9 +412,7 @@ const Invitation = () => {
                     <img src={usuario} alt="Ubicación" className="icon" /> Confirma tu asistencia
                   </motion.button>
                 ) : (
-                  <p className="status">
-                    Estado: {invitacion.asiste ? 'Asistirá' : 'No asistirá'}
-                  </p>
+                  <p className="status">Estado: {invitacion.asiste ? 'Asistirá' : 'No asistirá'}</p>
                 )}
                 {mensaje && <p className="message">{mensaje}</p>}
               </div>
