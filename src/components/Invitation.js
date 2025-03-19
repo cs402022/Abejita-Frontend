@@ -17,11 +17,11 @@ import barrildecoImage from '../assets/barril.png';
 
 const Invitation = () => {
   const { nombre } = useParams();
-  const [invitacion, setInvitacion] = useState({ nombre: '', asiste: null }); // Valor inicial para evitar null
+  const [invitacion, setInvitacion] = useState({ nombre: '', asiste: null });
   const [mensaje, setMensaje] = useState('');
   const [hasPlayed, setHasPlayed] = useState(false);
   const [showOverlay, setShowOverlay] = useState(true);
-  const [loading, setLoading] = useState(true); // Estado de carga
+  const [loading, setLoading] = useState(true);
   const backendUrl = 'https://abejita-backend.onrender.com';
 
   const audioRef = useRef(null);
@@ -52,7 +52,7 @@ const Invitation = () => {
         try {
           setLoading(true);
           const response = await axios.get(`${backendUrl}/invitacion/${nombre}`, {
-            timeout: 10000, // 10 segundos de tiempo de espera
+            timeout: 30000, // Aumentado a 30 segundos
           });
           const data = response.data.asiste === undefined || response.data.asiste === null
             ? { nombre: nombre, asiste: null }
@@ -61,7 +61,7 @@ const Invitation = () => {
           console.log('Invitación cargada:', data);
         } catch (error) {
           console.error('Error fetching invitation:', error);
-          if (retryCount < 3) {
+          if (retryCount < 1) { // Reducido a 1 reintento
             console.log(`Reintentando... Intento ${retryCount + 1}`);
             setTimeout(() => fetchInvitacion(retryCount + 1), 5000);
           } else {
@@ -125,7 +125,6 @@ const Invitation = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // Log para depurar el estado de invitacion
   useEffect(() => {
     console.log('Estado de invitacion:', invitacion);
   }, [invitacion]);
@@ -381,7 +380,21 @@ const Invitation = () => {
               <img src={locationIcon} alt="Ubicación" className="icon" /> Ver ubicación
             </a>
             {loading ? (
-              <p>Cargando...</p>
+              <motion.div
+                className="loading-container"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                <p>Cargando tu invitación...</p>
+                <motion.img
+                  src={abejitaImage}
+                  alt="Abejita cargando"
+                  className="abejita-loading"
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                />
+              </motion.div>
             ) : (
               <div className="confirmation">
                 {invitacion.asiste === null ? (
