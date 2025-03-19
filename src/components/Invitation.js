@@ -17,16 +17,15 @@ import barrildecoImage from '../assets/barril.png';
 
 const Invitation = () => {
   const { nombre } = useParams();
-  const [invitacion, setInvitacion] = useState(null);
+  const [invitacion, setInvitacion] = useState({ nombre: '', asiste: null }); // Valor inicial para evitar null
   const [mensaje, setMensaje] = useState('');
-  const [hasPlayed, setHasPlayed] = useState(false); // Estado para evitar múltiples reproducciones
-  const [showOverlay, setShowOverlay] = useState(true); // Estado para mostrar/ocultar el overlay
+  const [hasPlayed, setHasPlayed] = useState(false);
+  const [showOverlay, setShowOverlay] = useState(true);
+  const [loading, setLoading] = useState(true); // Estado de carga
   const backendUrl = 'https://abejita-backend.onrender.com';
 
-  // Referencia para controlar el audio
   const audioRef = useRef(null);
 
-  // Función para reproducir el audio y ocultar el overlay
   const handleStartInteraction = () => {
     const audio = audioRef.current;
     if (audio && !hasPlayed) {
@@ -34,7 +33,7 @@ const Invitation = () => {
         .then(() => {
           console.log('Audio iniciado tras interacción explícita');
           setHasPlayed(true);
-          setShowOverlay(false); // Ocultar el overlay
+          setShowOverlay(false);
           setTimeout(() => {
             audio.pause();
             audio.currentTime = 0;
@@ -47,12 +46,14 @@ const Invitation = () => {
     }
   };
 
-  // Consultar invitación
   useEffect(() => {
-    const fetchInvitacion = async () => {
+    const fetchInvitacion = async (retryCount = 0) => {
       if (nombre) {
         try {
-          const response = await axios.get(`${backendUrl}/invitacion/${nombre}`);
+          setLoading(true);
+          const response = await axios.get(`${backendUrl}/invitacion/${nombre}`, {
+            timeout: 10000, // 10 segundos de tiempo de espera
+          });
           const data = response.data.asiste === undefined || response.data.asiste === null
             ? { nombre: nombre, asiste: null }
             : response.data;
@@ -60,19 +61,27 @@ const Invitation = () => {
           console.log('Invitación cargada:', data);
         } catch (error) {
           console.error('Error fetching invitation:', error);
-          setInvitacion({ nombre: nombre, asiste: null });
+          if (retryCount < 3) {
+            console.log(`Reintentando... Intento ${retryCount + 1}`);
+            setTimeout(() => fetchInvitacion(retryCount + 1), 5000);
+          } else {
+            setInvitacion({ nombre: nombre, asiste: null });
+          }
+        } finally {
+          setLoading(false);
         }
       } else {
         console.log('No se proporcionó un nombre en la URL');
+        setLoading(false);
       }
     };
     fetchInvitacion();
   }, [nombre]);
 
-  // Confirmar asistencia
   const confirmarAsistencia = async (asiste) => {
     if (nombre) {
       try {
+        setLoading(true);
         await axios.post(`${backendUrl}/invitacion/${nombre}/confirmar`, { asiste });
         setMensaje('¡Confirmación enviada!');
         const response = await axios.get(`${backendUrl}/invitacion/${nombre}`);
@@ -83,13 +92,14 @@ const Invitation = () => {
       } catch (error) {
         console.error('Error confirming attendance:', error);
         setMensaje('Error al confirmar');
+      } finally {
+        setLoading(false);
       }
     } else {
       setMensaje('No se proporcionó un nombre válido');
     }
   };
 
-  // Contador hasta 5 de abril de 2025, 15:00
   const calculateTimeLeft = () => {
     const eventDate = new Date('2025-04-05T15:00:00');
     const now = new Date();
@@ -115,9 +125,13 @@ const Invitation = () => {
     return () => clearInterval(timer);
   }, []);
 
+  // Log para depurar el estado de invitacion
+  useEffect(() => {
+    console.log('Estado de invitacion:', invitacion);
+  }, [invitacion]);
+
   return (
     <div className="invitation-container">
-      {/* Overlay inicial para solicitar interacción */}
       {showOverlay && (
         <motion.div
           className="overlay"
@@ -141,13 +155,11 @@ const Invitation = () => {
         </motion.div>
       )}
 
-      {/* Audio que se reproduce al interactuar */}
       <audio ref={audioRef}>
         <source src={song} type="audio/mp3" />
         Tu navegador no soporta el elemento de audio.
       </audio>
 
-      {/* Imagen decorativa superior */}
       <div className="decor-top-wrapper">
         <motion.img
           src={arribaImage}
@@ -160,7 +172,6 @@ const Invitation = () => {
         />
       </div>
 
-      {/* Sección 1: Título, abeja animada, texto inicial */}
       <div className="title-wrapper">
         <motion.h1
           className="title"
@@ -196,7 +207,6 @@ const Invitation = () => {
           : 'TENEMOS EL HONOR DE INVITARTE AL PRIMER AÑITO DE NUESTRA PRINCESA  🎉'}
       </p>
 
-      {/* Imagen de la cumpleañera (hijadisfrazada) */}
       <div className="hija-wrapper">
         <motion.img
           src={hijadisfrazada}
@@ -254,7 +264,6 @@ const Invitation = () => {
         />
       </div>
 
-      {/* Contenedor para el nombre y la fecha con decoraciones */}
       <div className="name-date-wrapper">
         <h3 className="name">Charlotte Suarez Armijos</h3>
         <div className="decorated-date-wrapper">
@@ -334,30 +343,16 @@ const Invitation = () => {
               className="abejita-animation"
               animate={{ x: [30, -30, 30], y: [-5, 5, -5], rotate: [0, 5, -5, 0] }}
               transition={{
-                x: {
-                  repeat: Infinity,
-                  repeatType: "loop",
-                  duration: 3,
-                  ease: "easeInOut",
-                },
-                y: {
-                  repeat: Infinity,
-                  repeatType: "mirror",
-                  duration: 3,
-                  ease: "easeInOut",
-                },
-                rotate: {
-                  repeat: Infinity,
-                  repeatType: "loop",
-                  duration: 3,
-                  ease: "easeInOut",
-                },
+                x: { repeat: Infinity, repeatType: "loop", duration: 3, ease: "easeInOut" },
+                y: { repeat: Infinity, repeatType: "mirror", duration: 3, ease: "easeInOut" },
+                rotate: { repeat: Infinity, repeatType: "loop", duration: 3, ease: "easeInOut" },
               }}
               loading="lazy"
             />
           </div>
         </motion.div>
       )}
+
       <div className="location-container">
         <div className="abejita-wrapper2">
           <motion.img
@@ -366,24 +361,9 @@ const Invitation = () => {
             className="abejita-animation2"
             animate={{ x: [-30, 30, -30], y: [-5, 5, -5], rotate: [0, 5, -5, 0] }}
             transition={{
-              x: {
-                repeat: Infinity,
-                repeatType: "loop",
-                duration: 2.5,
-                ease: "easeInOut",
-              },
-              y: {
-                repeat: Infinity,
-                repeatType: "mirror",
-                duration: 3,
-                ease: "easeInOut",
-              },
-              rotate: {
-                repeat: Infinity,
-                repeatType: "loop",
-                duration: 3,
-                ease: "easeInOut",
-              },
+              x: { repeat: Infinity, repeatType: "loop", duration: 2.5, ease: "easeInOut" },
+              y: { repeat: Infinity, repeatType: "mirror", duration: 3, ease: "easeInOut" },
+              rotate: { repeat: Infinity, repeatType: "loop", duration: 3, ease: "easeInOut" },
             }}
             loading="lazy"
           />
@@ -400,7 +380,9 @@ const Invitation = () => {
             >
               <img src={locationIcon} alt="Ubicación" className="icon" /> Ver ubicación
             </a>
-            {invitacion && (
+            {loading ? (
+              <p>Cargando...</p>
+            ) : (
               <div className="confirmation">
                 {invitacion.asiste === null ? (
                   <motion.button
@@ -420,7 +402,7 @@ const Invitation = () => {
           </div>
         </div>
       </div>
-      {/* Imagen decorativa inferior */}
+
       <div className="decor-bottom-wrapper">
         <motion.img
           src={abajoImage}
