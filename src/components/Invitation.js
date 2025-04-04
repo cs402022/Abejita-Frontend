@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 import React from 'react';
+=======
+import React, { useState, useEffect, useRef } from 'react';
+ import { motion } from 'framer-motion';
+>>>>>>> fbc4f0db4ba9fedf6bf94f68003c593bb6e8c76c
 import { useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import useInvitation from '../hooks/useInvitation';
@@ -150,12 +155,78 @@ const Invitation = () => {
 
       {timeLeft && <AnimatedCountdown timeLeft={timeLeft} />}
 
+<<<<<<< HEAD
       <LocationSection
         loading={loading}
         invitacion={invitacion}
         mensaje={mensaje}
         confirmarAsistencia={confirmarAsistencia}
       />
+=======
+      <div className="location-container">
+        <div className="abejita-wrapper2">
+          <motion.img
+            src={abejitaImage2}
+            alt="Abejita Chiquita2"
+            className="abejita-animation2"
+            animate={{ x: [-30, 30, -30], y: [-5, 5, -5], rotate: [0, 5, -5, 0] }}
+            transition={{
+              x: { repeat: Infinity, repeatType: "loop", duration: 2.5, ease: "easeInOut" },
+              y: { repeat: Infinity, repeatType: "mirror", duration: 3, ease: "easeInOut" },
+              rotate: { repeat: Infinity, repeatType: "loop", duration: 3, ease: "easeInOut" },
+            }}
+            loading="lazy"
+          />
+        </div>
+        <div className="location-info">
+          <p className="location-title">Dirección:</p>
+          <p className="location-address">Samanes 7 Mz 2246 Villa 6</p>
+          <div className="button-container">
+            <a
+              href="https://www.google.com/maps/place/2%C2%B006'41.8%22S+79%C2%B054'38.1%22W/@-2.1116078,-79.9131485,17z/data=!3m1!4b1!4m4!3m3!8m2!3d-2.1116078!4d-79.9105736?entry=ttu&g_ep=EgoyMDI1MDQwMi4xIKXMDSoASAFQAw%3D%3D">Ubicación Correcta
+              target="_blank"
+              rel="noopener noreferrer"
+              className="map-link"
+            >
+              <img src={locationIcon} alt="Ubicación" className="icon" /> Ver ubicación
+            </a>
+            {loading ? (
+              <motion.div
+                className="loading-container"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                <p>Cargando tu invitación...</p>
+                <motion.img
+                  src={abejitaImage}
+                  alt="Abejita cargando"
+                  className="abejita-loading"
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                />
+              </motion.div>
+            ) : (
+              <div className="confirmation">
+                {invitacion.asiste === null ? (
+                  <motion.button
+                    onClick={() => confirmarAsistencia(true)}
+                    className="yes-button"
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                  >
+                    <img src={usuario} alt="Ubicación" className="icon" /> Confirma tu asistencia
+                  </motion.button>
+                ) : (
+                  <p className="status">Estado: {invitacion.asiste ? 'Asistirá' : 'No asistirá'}</p>
+                )}
+                {mensaje && <p className="message">{mensaje}</p>}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+>>>>>>> fbc4f0db4ba9fedf6bf94f68003c593bb6e8c76c
 
       <div className="decor-bottom-wrapper">
         <AnimatedImage
