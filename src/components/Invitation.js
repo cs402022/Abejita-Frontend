@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
-import { motion } from 'framer-motion';
+ import { motion } from 'framer-motion';
 import { useParams } from 'react-router-dom';
 import arribaImage from '../assets/arriba.png';
 import abajoImage from '../assets/abajo.png';
@@ -372,7 +371,7 @@ const Invitation = () => {
           <p className="location-address">Samanes 7 Mz 2246 Villa 6</p>
           <div className="button-container">
             <a
-              href="https://www.google.com/maps/place/2%C2%B006'42.3%22S+79%C2%B054'43.6%22W/@-2.111743,-79.912101,17z/data=!3m1!4b1!4m4!3m3!8m2!3d-2.111743!4d-79.912101?entry=ttu&g_ep=EgoyMDI1MDMxMi4wIKXMDSoASAFQAw%3D%3D"
+              href="https://www.google.com/maps/place/2%C2%B006'41.8%22S+79%C2%B054'38.1%22W/@-2.1116078,-79.9131485,17z/data=!3m1!4b1!4m4!3m3!8m2!3d-2.1116078!4d-79.9105736?entry=ttu&g_ep=EgoyMDI1MDQwMi4xIKXMDSoASAFQAw%3D%3D">Ubicación Correcta
               target="_blank"
               rel="noopener noreferrer"
               className="map-link"
