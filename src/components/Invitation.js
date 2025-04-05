@@ -1,185 +1,57 @@
+<<<<<<< HEAD
+import React from 'react';
+=======
 import React, { useState, useEffect, useRef } from 'react';
  import { motion } from 'framer-motion';
+<<<<<<< HEAD
  import axios from 'axios';  
+=======
+>>>>>>> fbc4f0db4ba9fedf6bf94f68003c593bb6e8c76c
+>>>>>>> be52f89e8cf512c91a3d83cf9830f09ec619c30c
 import { useParams } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import useInvitation from '../hooks/useInvitation';
+import useAudio from '../hooks/useAudio';
+import useCountdown from '../hooks/useCountdown';
+import httpService from '../services/httpService';
+import WelcomeOverlay from './WelcomeOverlay';
+import AnimatedImage from './AnimatedImage';
+import AnimatedCountdown from './AnimatedCountdown';
+import LocationSection from './LocationSection';
+import '../styles/Invitation.css';
 import arribaImage from '../assets/arriba.png';
 import abajoImage from '../assets/abajo.png';
-import abejitaImage from '../assets/abejita.png';
-import abejitaImage2 from '../assets/abejita2.png';
 import decorImage from '../assets/decor.png';
 import hijadisfrazada from '../assets/hijadisfrazadamejor.png';
 import song from '../assets/background-song.mp3';
-import locationIcon from '../assets/location.png';
-import usuario from '../assets/usuario.png';
-import './Invitation.css';
 import flordecoImage from '../assets/flordeco.png';
 import barrildecoImage from '../assets/barril.png';
 
 const Invitation = () => {
   const { nombre } = useParams();
-  const [invitacion, setInvitacion] = useState({ nombre: '', asiste: null });
-  const [mensaje, setMensaje] = useState('');
-  const [hasPlayed, setHasPlayed] = useState(false);
-  const [showOverlay, setShowOverlay] = useState(true);
-  const [loading, setLoading] = useState(true);
   const backendUrl = 'https://abejita-backend.onrender.com';
-
-  const audioRef = useRef(null);
-
-  const handleStartInteraction = () => {
-    const audio = audioRef.current;
-    if (audio && !hasPlayed) {
-      audio.play()
-        .then(() => {
-          console.log('Audio iniciado tras interacción explícita');
-          setHasPlayed(true);
-          setShowOverlay(false);
-          setTimeout(() => {
-            audio.pause();
-            audio.currentTime = 0;
-            setHasPlayed(false);
-          }, 60 * 1000);
-        })
-        .catch((error) => {
-          console.error('Error al reproducir el audio tras interacción:', error);
-        });
-    }
-  };
-
-  useEffect(() => {
-    const fetchInvitacion = async (retryCount = 0) => {
-      if (nombre) {
-        try {
-          setLoading(true);
-          const response = await axios.get(`${backendUrl}/invitacion/${nombre}`, {
-            timeout: 30000, // Aumentado a 30 segundos
-          });
-          const data = response.data.asiste === undefined || response.data.asiste === null
-            ? { nombre: nombre, asiste: null }
-            : response.data;
-          setInvitacion(data);
-          console.log('Invitación cargada:', data);
-        } catch (error) {
-          console.error('Error fetching invitation:', error);
-          if (retryCount < 1) { // Reducido a 1 reintento
-            console.log(`Reintentando... Intento ${retryCount + 1}`);
-            setTimeout(() => fetchInvitacion(retryCount + 1), 5000);
-          } else {
-            setInvitacion({ nombre: nombre, asiste: null });
-          }
-        } finally {
-          setLoading(false);
-        }
-      } else {
-        console.log('No se proporcionó un nombre en la URL');
-        setLoading(false);
-      }
-    };
-    fetchInvitacion();
-  }, [nombre]);
-
-  const confirmarAsistencia = async (asiste) => {
-    if (nombre) {
-      try {
-        setLoading(true);
-        await axios.post(`${backendUrl}/invitacion/${nombre}/confirmar`, { asiste });
-        setMensaje('¡Confirmación enviada!');
-        const response = await axios.get(`${backendUrl}/invitacion/${nombre}`);
-        const updatedData = response.data.asiste === undefined || response.data.asiste === null
-          ? { nombre: nombre, asiste: null }
-          : response.data;
-        setInvitacion(updatedData);
-      } catch (error) {
-        console.error('Error confirming attendance:', error);
-        setMensaje('Error al confirmar');
-      } finally {
-        setLoading(false);
-      }
-    } else {
-      setMensaje('No se proporcionó un nombre válido');
-    }
-  };
-
-  const calculateTimeLeft = () => {
-    const eventDate = new Date('2025-04-05T15:00:00');
-    const now = new Date();
-    const difference = eventDate - now;
-    let timeLeft = {};
-
-    if (difference > 0) {
-      timeLeft = {
-        dias: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        horas: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutos: Math.floor((difference / 1000 / 60) % 60),
-        segundos: Math.floor((difference / 1000) % 60),
-      };
-    }
-    return timeLeft;
-  };
-
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft());
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  useEffect(() => {
-    console.log('Estado de invitacion:', invitacion);
-  }, [invitacion]);
+  const { invitacion, mensaje, loading, confirmarAsistencia } = useInvitation(nombre, backendUrl, httpService);
+  const { showOverlay, audioRef, handleStartInteraction } = useAudio(song);
+  const timeLeft = useCountdown('2025-04-05T15:00:00');
 
   return (
     <div className="invitation-container">
-      {showOverlay && (
-        <motion.div
-          className="overlay"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <div className="overlay-content">
-            <h2>¡Bienvenido/a!</h2>
-            <p>Toca aquí para comenzar la experiencia</p>
-            <motion.button
-              onClick={handleStartInteraction}
-              onTouchStart={handleStartInteraction}
-              className="start-button"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              Comenzar
-            </motion.button>
-          </div>
-        </motion.div>
-      )}
-
+      <WelcomeOverlay showOverlay={showOverlay} onStart={handleStartInteraction} />
       <audio ref={audioRef}>
         <source src={song} type="audio/mp3" />
         Tu navegador no soporta el elemento de audio.
       </audio>
 
       <div className="decor-top-wrapper">
-        <motion.img
+        <AnimatedImage
           src={arribaImage}
           alt="Decoración superior"
           className="decor-top-image"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          loading="lazy"
+          animationProps={{ initial: { opacity: 0, y: -20 }, animate: { opacity: 1, y: 0 }, transition: { duration: 1 } }}
         />
       </div>
 
       <div className="title-wrapper">
-        <motion.h1
-          className="title"
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-        >
-          {/* Puedes agregar texto aquí si lo deseas, por ejemplo: "Invitación" */}
-        </motion.h1>
         <motion.h2
           className="subtitle"
           initial={{ opacity: 0, y: -30 }}
@@ -191,89 +63,70 @@ const Invitation = () => {
       </div>
 
       <div className="decor-wrapper">
-        <motion.img
+        <AnimatedImage
           src={decorImage}
           alt="Decoración"
           className="decor-image"
-          animate={{ x: [0, 30, 0], y: [0, 10, 0], rotate: [0, 5, -5, 0] }}
-          transition={{ duration: 4, repeat: Infinity }}
-          loading="lazy"
+          animationProps={{
+            animate: { x: [0, 30, 0], y: [0, 10, 0], rotate: [0, 5, -5, 0] },
+            transition: { duration: 4, repeat: Infinity },
+          }}
         />
       </div>
+
       <p className="invite-text">
         {nombre
           ? `${nombre.replace('_', ' ').toUpperCase()}, TENEMOS EL HONOR DE INVITARTE AL PRIMER AÑITO DE NUESTRA PRINCESA 🎉`
-          : 'TENEMOS EL HONOR DE INVITARTE AL PRIMER AÑITO DE NUESTRA PRINCESA  🎉'}
+          : 'TENEMOS EL HONOR DE INVITARTE AL PRIMER AÑITO DE NUESTRA PRINCESA 🎉'}
       </p>
 
       <div className="hija-wrapper">
-        <motion.img
+        <AnimatedImage
           src={hijadisfrazada}
           alt="Cumpleañera"
           className="hija-image"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8 }}
-          loading="lazy"
+          animationProps={{ initial: { opacity: 0, scale: 0.8 }, animate: { opacity: 1, scale: 1 }, transition: { duration: 0.8 } }}
         />
-        <motion.img
+        <AnimatedImage
           src={flordecoImage}
           alt="flor decorativo izquierda"
           className="flordeco-image left"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-          loading="lazy"
+          animationProps={{ initial: { opacity: 0, x: -20 }, animate: { opacity: 1, x: 0 }, transition: { duration: 0.8 } }}
         />
-        <motion.img
+        <AnimatedImage
           src={flordecoImage}
           alt="flor decorativo izquierda"
           className="flordeco-image left2"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-          loading="lazy"
+          animationProps={{ initial: { opacity: 0, x: -20 }, animate: { opacity: 1, x: 0 }, transition: { duration: 0.8 } }}
         />
-        <motion.img
+        <AnimatedImage
           src={flordecoImage}
           alt="flor decorativo derecha"
           className="flordeco-image right"
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-          loading="lazy"
+          animationProps={{ initial: { opacity: 0, x: 20 }, animate: { opacity: 1, x: 0 }, transition: { duration: 0.8 } }}
         />
-        <motion.img
-          src={flordecoImage}
-          alt="flor decorativo derecha"
-          className="flordeco-image right3"
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-          loading="lazy"
-        />
-        <motion.img
+        <AnimatedImage
           src={flordecoImage}
           alt="flor decorativo derecha"
           className="flordeco-image right2"
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-          loading="lazy"
+          animationProps={{ initial: { opacity: 0, x: 20 }, animate: { opacity: 1, x: 0 }, transition: { duration: 0.8 } }}
+        />
+        <AnimatedImage
+          src={flordecoImage}
+          alt="flor decorativo derecha"
+          className="flordeco-image right3"
+          animationProps={{ initial: { opacity: 0, x: 20 }, animate: { opacity: 1, x: 0 }, transition: { duration: 0.8 } }}
         />
       </div>
 
       <div className="name-date-wrapper">
         <h3 className="name">Charlotte Suarez Armijos</h3>
         <div className="decorated-date-wrapper">
-          <motion.img
+          <AnimatedImage
             src={barrildecoImage}
             alt="Barril decorativa izquierda"
             className="barrildeco-image left"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            loading="lazy"
+            animationProps={{ initial: { opacity: 0, x: -20 }, animate: { opacity: 1, x: 0 }, transition: { duration: 0.8 } }}
           />
           <motion.div
             className="date-container"
@@ -295,63 +148,25 @@ const Invitation = () => {
               </div>
             </div>
           </motion.div>
-          <motion.img
+          <AnimatedImage
             src={barrildecoImage}
-            alt="barril decorativa derecha"
+            alt="Barril decorativa derecha"
             className="barrildeco-image right"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            loading="lazy"
+            animationProps={{ initial: { opacity: 0, x: 20 }, animate: { opacity: 1, x: 0 }, transition: { duration: 0.8 } }}
           />
         </div>
       </div>
 
-      {timeLeft && (
-        <motion.div
-          className="counter-container"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-        >
-          <div className="counter-content">
-            <p>¿Cuánto falta?</p>
-            <div className="time-blocks">
-              <div className="time-block">
-                <span className="time-number">{timeLeft.dias || 0}</span>
-                <span className="time-label">Días</span>
-              </div>
-              <div className="time-block">
-                <span className="time-number">{timeLeft.horas || 0}</span>
-                <span className="time-label">Horas</span>
-              </div>
-              <div className="time-block">
-                <span className="time-number">{timeLeft.minutos || 0}</span>
-                <span className="time-label">Minutos</span>
-              </div>
-              <div className="time-block">
-                <span className="time-number">{timeLeft.segundos || 0}</span>
-                <span className="time-label">Segundos</span>
-              </div>
-            </div>
-          </div>
-          <div className="abejita-wrapper">
-            <motion.img
-              src={abejitaImage}
-              alt="Abejita Chiquita"
-              className="abejita-animation"
-              animate={{ x: [30, -30, 30], y: [-5, 5, -5], rotate: [0, 5, -5, 0] }}
-              transition={{
-                x: { repeat: Infinity, repeatType: "loop", duration: 3, ease: "easeInOut" },
-                y: { repeat: Infinity, repeatType: "mirror", duration: 3, ease: "easeInOut" },
-                rotate: { repeat: Infinity, repeatType: "loop", duration: 3, ease: "easeInOut" },
-              }}
-              loading="lazy"
-            />
-          </div>
-        </motion.div>
-      )}
+      {timeLeft && <AnimatedCountdown timeLeft={timeLeft} />}
 
+<<<<<<< HEAD
+      <LocationSection
+        loading={loading}
+        invitacion={invitacion}
+        mensaje={mensaje}
+        confirmarAsistencia={confirmarAsistencia}
+      />
+=======
       <div className="location-container">
         <div className="abejita-wrapper2">
           <motion.img
@@ -415,16 +230,14 @@ const Invitation = () => {
           </div>
         </div>
       </div>
+>>>>>>> fbc4f0db4ba9fedf6bf94f68003c593bb6e8c76c
 
       <div className="decor-bottom-wrapper">
-        <motion.img
+        <AnimatedImage
           src={abajoImage}
           alt="Decoración inferior"
           className="decor-bottom-image"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-          loading="lazy"
+          animationProps={{ initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 }, transition: { duration: 1 } }}
         />
       </div>
     </div>
